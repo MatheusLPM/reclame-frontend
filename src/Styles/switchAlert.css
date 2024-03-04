@@ -1,0 +1,65 @@
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm {
+
+    background-color: #000;
+
+}
+
+div:where(.swal2-icon).swal2-error {
+    border-color: #000;
+    color: #000;
+}
+
+div:where(.swal2-icon).swal2-error {
+    color: #000;
+}
+
+div:where(.swal2-icon).swal2-error [class^="swal2-x-mark-line"] {
+    display: block;
+    position: absolute;
+    top: 2.3125em;
+    width: 2.9375em;
+    height: .3125em;
+    border-radius: .125em;
+    background-color: #000;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+    color: #212121;
+    font-family: inherit;
+    font-size: 1rem;
+}
+
+.custom-confirm-button-class {
+    background-color: #212121;
+    width: 5rem;
+    height: 3rem;
+    color: #fff;
+
+    margin-right: 1rem;
+    border-radius: 0.5vh;
+    border: 1px solid #212121;
+    font-size: 1rem;
+    cursor: pointer;
+
+}
+
+.custom-confirm-button-class:hover {
+    opacity: 0.9;
+}
+
+.custom-cancel-button-class {
+    background-color: #fff;
+    width: 5rem;
+    height: 3rem;
+    color: #212121;
+    padding: 1dvh;
+    margin-right: 1rem;
+    border-radius: 0.5vh;
+    border: 1px solid #e7e7e7;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.custom-cancel-button-class:hover {
+    opacity: 0.9;
+}

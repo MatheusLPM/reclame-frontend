@@ -1,0 +1,39 @@
+import axios from "axios";
+
+export const api = axios.create({
+    baseURL: 'http://localhost:8000/api/',
+});
+
+
+api.interceptors.request.use((config) => {
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+    }
+    return config;
+});
+
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const { status } = error.response ?? "";
+        //const navigate = useNavigate();
+
+        if (status === 401) {
+
+            console.log("Token expirou")
+
+        }
+        if (status >= 400) {
+
+            console.log("Erro na solicitação")
+        }
+        if (status >= 500) {
+
+            console.log("Erro no servidor")
+        }
+        return Promise.reject(error);
+    }
+);

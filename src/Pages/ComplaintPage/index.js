@@ -1,0 +1,262 @@
+import React, { useEffect, useState } from "react";
+
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ReactLoading from 'react-loading';
+import { StyledComplaintBody } from "./style";
+import { findChildrenComplaint, getConsumer, getUserAuth, showCompanyComplaints } from "../../Services/api";
+import { newData } from "../../Services/functionValidations";
+import FormModal from "../../Components/FormModal";
+import ResponseComplaint from "../../Components/Complaint/ResponseBody";
+import Modal from "../../Components/Modal";
+import Swal from "sweetalert2";
+
+export default function ComplaintPage(props) {
+
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    const [isLoading, setIsLoading] = useState(true);
+    const [complaint, setComplaint] = useState([]);
+    const [user, setUser] = useState(null);
+    const [userType, setUserType] = useState(null);
+    const [showModal, setShowModal] = useState(false);
+    const [showChildren, setShowChildren] = useState([]);
+
+    const updateChildren = async () => {
+        try {
+
+            const [complaintData, childrenData, userData] = await Promise.all([
+                showCompanyComplaints(id),
+                findChildrenComplaint(id),
+                getUserAuth()
+            ]);
+            setComplaint(complaintData);
+            setShowChildren(childrenData);
+            if (userData) {
+                setUser(userData.user)
+                setUserType(userData.userType)
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Erro', error);
+        }
+    }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+
+                const [complaintData, childrenData, userData] = await Promise.all([
+                    showCompanyComplaints(id),
+                    findChildrenComplaint(id),
+                    getUserAuth()
+                ]);
+
+
+                setComplaint(complaintData);
+                setShowChildren(childrenData);
+                if (userData) {
+                    setUser(userData.user)
+                    setUserType(userData.userType)
+                }
+                setIsLoading(false);
+            } catch (error) {
+                console.error('Erro', error);
+            }
+        };
+        fetchData();
+    }, [id]);
+
+    const handleCancelComplaint = () => {
+        Swal.fire({
+            title: "Tem certeza?",
+            text: "Ao clicar em sim a reclamação será cancelada!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sim",
+            cancelButtonText: "Não",
+            customClass: {
+                confirmButton: "custom-confirm-button-class",
+                cancelButton: "custom-cancel-button-class"
+            },
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                console.log(id)
+                const fetchData = async () => {
+                    try {
+                        const [data] = await Promise.all([
+                            cancelComplaint(id)
+                        ])
+                        console.log(data);
+
+                        Swal.fire({
+                            title: "Cancelada!",
+                            text: "Reclamação cancelada com sucesso",
+                            icon: "success",
+                            customClass: {
+                                confirmButton: "custom-confirm-button-class",
+                            },
+                            buttonsStyling: false
+                        })
+                        navigate(-1)
+
+                    } catch (error) {
+                        return "erro";
+                    }
+                }
+
+                fetchData()
+                // handleCloseModal();
+            }
+        });
+    }
+
+    useEffect(() => {
+        if (complaint == undefined) {
+            navigate("/*")
+        }
+    }, [complaint, navigate])
+
+    const handleShowModal = () => {
+        setShowModal(true)
+    }
+    const handleCloseModal = () => {
+        setShowModal(false)
+    }
+
+    const handleButton = () => {
+        if (localStorage.getItem('token') && (showChildren.length == 0) && (userType == "empresa")) {
+            return (
+                <div className="modal">
+                    {showModal &&
+                        <FormModal
+                            handleCloseModal={handleCloseModal}
+                            categoria={complaint.categoria_reclamacao.id}
+                            empresa={complaint.id_empresa}
+                            consumidor={complaint.id_consumidor}
+                            pai={complaint.id}
+                            onSubmit={updateChildren}
+                        />
+                    }
+                    <button onClick={handleShowModal} className="send-button">Responder</button>
+                </div>
+            );
+        } else if (localStorage.getItem('token') && (userType == "consumidor")) {
+
+            if ((showChildren.length == 0)) {
+
+                return (
+                    <div className="modal">
+                        <button className="send-button" onClick={() => handleCancelComplaint()}>Cancelar reclamação</button>
+                    </div>
+                )
+            } else {
+                return (
+                    <div className="modal">
+                        {showModal &&
+                            <Modal
+                                handleCloseModal={handleCloseModal}
+                            />
+                        }
+                        <button onClick={handleShowModal} className="send-button">Avaliar Resposta</button>
+                    </div>
+                )
+            }
+        }
+    }
+
+    // console.log("user:", user)
+    // console.log("tipo:", userType)
+
+    const newStatus = () => {
+
+        if (complaint.length > 0) {
+            return complaint.status = "Respondida"
+        } else {
+            return complaint.status
+        }
+    }
+    const statusColor = (status) => {
+        if (status == "Aguardando") {
+            return ('#212121')
+        } else if (status == "Não Respondida") {
+            return ('#CE0000')
+        } else {
+            return ('#00A11A')
+        }
+    }
+    const statusBackground = (status) => {
+        if (status == "Aguardando") {
+            return ('#E0E0E0')
+        } else if (status == "Não Respondida") {
+            return ('#F1DDDD')
+        } else {
+            return ('#DDEDDF')
+        }
+    }
+
+
+    return (
+        <StyledComplaintBody>
+            {isLoading ? (
+                <div className="loading">
+                    <ReactLoading type="spinningBubbles" color="#E7E7E7" />
+                </div>
+            ) : <>
+                <section>
+                    <article>
+                        <Link to={`/perfil/empresa/${complaint.id_empresa}`} >
+                            <span>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1" />
+                                </svg>
+                            </span>
+                            <p>Voltar</p>
+                        </Link>
+                    </article>
+                    <article>
+                        <div>
+                            <h1>{complaint.titulo}</h1>
+                            <p
+                                newstatus={newStatus(complaint.id_status ? complaint.status_reclamacao.status : '')}
+                                style={{ color: statusColor(complaint.id_status ? complaint.status_reclamacao.status : ''), background: statusBackground(complaint.id_status ? complaint.status_reclamacao.status : '') }}
+                            >{complaint.id_status ? complaint.status_reclamacao.status : ''}</p>
+                        </div>
+                        <div>
+                            <p>
+                                <span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                        <path d="M4 .5a.5.5 0 0 0-1 0V1H2a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2h-1V.5a.5.5 0 0 0-1 0V1H4zM2.545 3h10.91c.3 0 .545.224.545.5v1c0 .276-.244.5-.546.5H2.545C2.245 5 2 4.776 2 4.5v-1c0-.276.244-.5.545-.5" />
+                                    </svg>
+                                </span>
+                                {newData(complaint.created_at)}
+                            </p>
+                            <p>
+                                <span>ID:</span>
+                                {complaint.id}
+                            </p>
+                        </div>
+                        <div>
+                            <p>{complaint.categoria_reclamacao ? complaint.categoria_reclamacao.tipo : ''}</p>
+                        </div>
+                        <p className="desc">{complaint.descricao}</p>
+                    </article>
+                </section>
+                {showChildren.map((item, index) => (
+                    <ResponseComplaint
+                        key={index}
+                        title={item.titulo}
+                        desc={item.descricao}
+                        data={item.created_at}
+                    />
+                ))}
+                {handleButton(showChildren, showModal)}
+
+            </>}
+
+        </StyledComplaintBody>
+    );
+}
