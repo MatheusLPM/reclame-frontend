@@ -31,9 +31,6 @@ export default function CompanyComplaints(props) {
         const searchString = e.target.value;
         setChangeComplaint(searchString);
 
-        console.log(searchString)
-        console.log(autoCompleteResults)
-
         if (searchString.length) {
 
             const autoCompleteValores = searchNormalize(searchString);
@@ -56,7 +53,6 @@ export default function CompanyComplaints(props) {
         } else if (selectFilter) {
 
             array = consumerComplaints.filter((info) => (info.status === selectFilter) && (info.id_pai == null))
-            //console.log(array)
             return array;
 
         } else {

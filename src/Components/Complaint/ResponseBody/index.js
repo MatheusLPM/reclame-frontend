@@ -5,14 +5,16 @@ import { newData } from "../../../Services/functionValidations";
 
 
 export default function ResponseComplaint(props) {
+
     return (
-        <StyledResponseBody>
+        <StyledResponseBody isEven={props.isEven}>
             <div className="titulo-data">
                 <h1>{props.title}</h1>
                 <p>
                     {newData(props.data)}
                 </p>
             </div>
+            <p className="type">{props.isEven ? "Empresa" : "Consumidor"}</p>
             <p>{props.desc}</p>
         </StyledResponseBody>
     )

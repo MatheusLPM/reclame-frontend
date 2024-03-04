@@ -159,14 +159,3 @@ export const findChildrenComplaint = async (id) => {
         throw error;
     }
 }
-
-export const cancelComplaint = async (id) => {
-    try {
-        const { data } = await api.delete(`reclamacao/cancel/${id}`);
-        return data;
-    } catch (error) {
-        console.log("Erro ao buscar os dados:", error)
-        throw error;
-    }
-}
-

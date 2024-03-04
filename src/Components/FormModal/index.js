@@ -5,6 +5,9 @@ import { checkFormCompaint } from "../../Services/functionValidations";
 import Swal from "sweetalert2";
 import { api } from "../../Services/server";
 
+import ReactLoading from 'react-loading';
+import { useSpring, animated } from "react-spring";
+
 
 
 
@@ -17,6 +20,8 @@ export default function FormModal(props) {
     const [consumidor, setConsumidor] = useState("");
     const [pai, setPai] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         setCategoria(String(props.categoria));
@@ -24,6 +29,28 @@ export default function FormModal(props) {
         setConsumidor(String(props.consumidor));
         setPai(String(props.pai));
     }, []);
+
+    const bounceAnimation = useSpring({
+        from: {
+            transform: "scale(0.7)"
+        },
+        "45%": {
+            transform: "scale(1.05)"
+        },
+        "80%": {
+            transform: "scale(0.95)"
+        },
+        to: {
+            transform: "scale(1)"
+        },
+        config: {
+            mass: 0.7,
+            tension: 500,
+            friction: 14,
+            precision: 0.009,
+            velocity: 0.036
+        }
+    });
 
     function normalizeError(erro) {
 
@@ -47,12 +74,14 @@ export default function FormModal(props) {
             }
 
             try {
-
+                setLoading(true);
                 const { data } = await api.post("resposta/reclamacao", formData)
                 console.log(data)
+
+                setLoading(false);
                 return Swal.fire({
                     icon: "success",
-                    title: "Reclamação feita com sucesso!",
+                    title: `${props.tipo == "consumidor" ? "Reclamação feita com sucesso!" : "Resposta enviada com sucesso!"}`,
                     customClass: {
                         confirmButton: 'custom-confirm-button-class',
                     },
@@ -66,7 +95,7 @@ export default function FormModal(props) {
 
                 const erro = normalizeError(error.response.data.message)
                 console.log(erro)
-
+                setLoading(false)
                 return Swal.fire({
                     icon: "error",
                     text: erro,
@@ -82,8 +111,14 @@ export default function FormModal(props) {
     }
 
     return (
+
         <StyledFormModal onClick={props.handleCloseModal}>
-            <form className="form" onClick={(e) => { e.stopPropagation() }}>
+            {loading && (
+                <div style={{ position: "fixed", height: "100dvh", width: "100dvw", top: "0", left: "0", zIndex: "5", backgroundColor: "#212121", display: "grid", placeItems: "center", opacity: 0.5 }}>
+                    <ReactLoading type="spinningBubbles" color="black" />
+                </div>)
+            }
+            <animated.form style={bounceAnimation} className="form" onClick={(e) => { e.stopPropagation() }}>
                 <DivSectionForm
                     title="Titulo"
                     placeholder="Titulo"
@@ -102,7 +137,7 @@ export default function FormModal(props) {
                     onChange={(event) => setDescricao(event.target.value)}
                 />
                 <button onSubmit={handleSubmit} onClick={handleSubmit}>Enviar resposta</button>
-            </form>
+            </animated.form>
         </StyledFormModal>
     );
 }

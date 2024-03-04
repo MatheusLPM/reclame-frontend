@@ -41,11 +41,11 @@ export default function Login() {
 
             try {
 
-                setLoading(true)
+                setLoading(true);
 
-                const { data } = await api.post("auth/login", formData)
+                const { data } = await api.post("auth/login", formData);
 
-                const token = data.authorization.token
+                const token = data.authorization.token;
 
                 // localStorage.setItem('nome', data.user.nome)
                 localStorage.setItem('token', token)
@@ -53,11 +53,11 @@ export default function Login() {
                 // localStorage.setItem('email', data.user.email)
                 // localStorage.setItem('id', data.user.id)
 
-                console.log(data)
+                console.log(data);
 
-                setLoading(false)
+                setLoading(false);
 
-                return localStorage.getItem("tipo") == "consumidor" ? navigate('/consumer') : navigate('/company')
+                return localStorage.getItem("tipo") == "consumidor" ? navigate('/consumer') : navigate('/company');
 
             } catch (error) {
 

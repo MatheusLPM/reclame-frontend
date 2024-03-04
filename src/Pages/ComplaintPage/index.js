@@ -3,12 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { StyledComplaintBody } from "./style";
-import { findChildrenComplaint, getConsumer, getUserAuth, showCompanyComplaints } from "../../Services/api";
+import { findChildrenComplaint, getUserAuth, showCompanyComplaints } from "../../Services/api";
 import { newData } from "../../Services/functionValidations";
 import FormModal from "../../Components/FormModal";
 import ResponseComplaint from "../../Components/Complaint/ResponseBody";
 import Modal from "../../Components/Modal";
 import Swal from "sweetalert2";
+import { api } from "../../Services/server";
 
 export default function ComplaintPage(props) {
 
@@ -43,29 +44,26 @@ export default function ComplaintPage(props) {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-
-                const [complaintData, childrenData, userData] = await Promise.all([
-                    showCompanyComplaints(id),
-                    findChildrenComplaint(id),
-                    getUserAuth()
-                ]);
-
-
-                setComplaint(complaintData);
-                setShowChildren(childrenData);
-                if (userData) {
-                    setUser(userData.user)
-                    setUserType(userData.userType)
-                }
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Erro', error);
-            }
-        };
-        fetchData();
+        updateChildren();
     }, [id]);
+
+    const confirmCancel = async () => {
+        try {
+            const { data } = await api.delete(`reclamacao/cancel/${id}`);
+            console.log(data);
+            Swal.fire({
+                title: "Cancelada!",
+                text: "Reclamação cancelada com sucesso",
+                icon: "success",
+                customClass: {
+                    confirmButton: "custom-confirm-button-class",
+                },
+                buttonsStyling: false
+            });
+        } catch (error) {
+            return "erro";
+        }
+    };
 
     const handleCancelComplaint = () => {
         Swal.fire({
@@ -82,41 +80,19 @@ export default function ComplaintPage(props) {
                 cancelButton: "custom-cancel-button-class"
             },
             buttonsStyling: false
-        }).then((result) => {
+        }).then(async (result) => {
             if (result.isConfirmed) {
-                console.log(id)
-                const fetchData = async () => {
-                    try {
-                        const [data] = await Promise.all([
-                            cancelComplaint(id)
-                        ])
-                        console.log(data);
-
-                        Swal.fire({
-                            title: "Cancelada!",
-                            text: "Reclamação cancelada com sucesso",
-                            icon: "success",
-                            customClass: {
-                                confirmButton: "custom-confirm-button-class",
-                            },
-                            buttonsStyling: false
-                        })
-                        navigate(-1)
-
-                    } catch (error) {
-                        return "erro";
-                    }
-                }
-
-                fetchData()
-                // handleCloseModal();
+                await confirmCancel();
+                navigate(-1);
             }
+
         });
-    }
+    };
+
 
     useEffect(() => {
         if (complaint == undefined) {
-            navigate("/*")
+            navigate("/")
         }
     }, [complaint, navigate])
 
@@ -127,8 +103,10 @@ export default function ComplaintPage(props) {
         setShowModal(false)
     }
 
+    console.log(complaint.id_empresa);
+
     const handleButton = () => {
-        if (localStorage.getItem('token') && (showChildren.length == 0) && (userType == "empresa")) {
+        if (localStorage.getItem('token') && (showChildren.length % 2 == 0) && (userType == "empresa")) {
             return (
                 <div className="modal">
                     {showModal &&
@@ -153,12 +131,17 @@ export default function ComplaintPage(props) {
                         <button className="send-button" onClick={() => handleCancelComplaint()}>Cancelar reclamação</button>
                     </div>
                 )
-            } else {
+            } else if (localStorage.getItem('token') && (userType == "consumidor") && (showChildren.length % 2 != 0)) {
                 return (
                     <div className="modal">
                         {showModal &&
                             <Modal
                                 handleCloseModal={handleCloseModal}
+                                categoria={complaint.categoria_reclamacao.id}
+                                empresa={complaint.id_empresa}
+                                consumidor={complaint.id_consumidor}
+                                pai={complaint.id}
+                                onSubmit={updateChildren}
                             />
                         }
                         <button onClick={handleShowModal} className="send-button">Avaliar Resposta</button>
@@ -167,9 +150,6 @@ export default function ComplaintPage(props) {
             }
         }
     }
-
-    // console.log("user:", user)
-    // console.log("tipo:", userType)
 
     const newStatus = () => {
 
@@ -195,9 +175,12 @@ export default function ComplaintPage(props) {
             return ('#F1DDDD')
         } else {
             return ('#DDEDDF')
-        }
-    }
+        };
+    };
 
+    const handleFallback = () => {
+        navigate(-1);
+    }
 
     return (
         <StyledComplaintBody>
@@ -208,7 +191,7 @@ export default function ComplaintPage(props) {
             ) : <>
                 <section>
                     <article>
-                        <Link to={`/perfil/empresa/${complaint.id_empresa}`} >
+                        <Link onClick={() => handleFallback()} >
                             <span>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M16 14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2zm-4.5-6.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H11.5a.5.5 0 0 0 0-1" />
@@ -251,9 +234,12 @@ export default function ComplaintPage(props) {
                         title={item.titulo}
                         desc={item.descricao}
                         data={item.created_at}
+                        isEven={index % 2 === 0}
                     />
                 ))}
-                {handleButton(showChildren, showModal)}
+                <div className="show-button">
+                    {handleButton(showChildren, showModal)}
+                </div>
 
             </>}
 

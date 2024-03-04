@@ -17,7 +17,7 @@ export default function CompanyArea() {
     const [menu, setMenu] = useState("Inicio");
     const [userComplaints, setUserComplaints] = useState({});
 
-    const options = ["Inicio", "Reclamações", "Configurações"]
+    const options = ["Inicio", "Reclamações", "Configurações"];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -27,53 +27,51 @@ export default function CompanyArea() {
                     getCompanyComplaints()
 
                 ]);
-                setUser(data.user)
-                setAdress(data.address)
-                setUserComplaints(dataComplaints)
+                setUser(data.user);
+                setAdress(data.address);
+                setUserComplaints(dataComplaints);
                 setIsLoading(false);
             } catch (error) {
-                console.error('Erro', error)
+                console.error('Erro', error);
             }
         };
         fetchData();
     }, []);
 
-    console.log(user)
-    console.log(address)
-
     const componentRender = (menu) => {
         switch (menu) {
             case "Inicio":
-                return (<HomeUser
-                    nome={user.nome}
-                    cn={user.cnpj}
-                    cidade={address.cidade}
-                    email={user.email}
-                    data={user.data_nascimento}
-                    estado={address.uf}
-                    cep={address.cep}
-                    site={user.site}
-                    des={user.desc}
-                    userType={localStorage.getItem('tipo')}
-                />)
+                return (
+                    <HomeUser
+                        nome={user.nome}
+                        cn={user.cnpj}
+                        cidade={address.cidade}
+                        email={user.email}
+                        data={user.data_nascimento}
+                        estado={address.uf}
+                        cep={address.cep}
+                        site={user.site}
+                        des={user.desc}
+                        userType={localStorage.getItem('tipo')}
+                    />);
 
             case "Reclamações":
                 return (userComplaints.length > 0 ?
                     <CompanyComplaints
                         consumerComplaints={userComplaints}
-                    /> : <h2 className="empty">Sem Reclamações</h2>)
+                    /> : <h2 className="empty">Sem Reclamações</h2>);
 
             case "Configurações":
-                return "Configurações"
+                return "Configurações";
 
             default:
-                return
+                return "";
         }
     };
 
     const handleSelectedLink = (item) => {
 
-        setMenu(item)
+        setMenu(item);
     };
 
     return (

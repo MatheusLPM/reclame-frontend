@@ -1,4 +1,5 @@
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const api = axios.create({
     baseURL: 'http://localhost:8000/api/',
@@ -23,6 +24,7 @@ api.interceptors.response.use(
 
         if (status === 401) {
 
+            localStorage.removeItem('token')
             console.log("Token expirou")
 
         }
@@ -33,6 +35,12 @@ api.interceptors.response.use(
         if (status >= 500) {
 
             console.log("Erro no servidor")
+            console.log(error)
+
+            Swal.fire({
+                icon: "error",
+                text: error.response.data.message ? "Erro de conexão" : "Erro Desconhecido",
+            });
         }
         return Promise.reject(error);
     }

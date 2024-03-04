@@ -34,14 +34,14 @@ export const StyledComplaintBody = styled.main`
 
             min-width: 10dvh;
             font-size: 1.5dvh;
-            background-color: #000;
-            color: white;
+            background-color: #212121;
+            color: #fff;
             border-radius: 0.5vh;
             border: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-weight: 500;
+            font-weight: 600;
             padding: 1dvh 2vh;
             cursor: pointer;
         }
@@ -53,20 +53,14 @@ export const StyledComplaintBody = styled.main`
         
     }
 
-    .desc{
-        font-size: 1.5vh;
+    .show-button{
+        margin-bottom: 2dvh;
     }
 
     section{
 
         width: 55vw;
-        
-
-        article > p:last-child{
-            margin-top: 1rem;
-            text-align: justify;
-        }
-
+       
         article:nth-child(1){
             
             height: 3rem;
@@ -80,6 +74,7 @@ export const StyledComplaintBody = styled.main`
                 display: flex;
                 flex-direction: row;
                 align-items: center;
+                padding-left: 0.5vh;
 
                 :hover{
                     opacity: 0.9;
@@ -101,16 +96,17 @@ export const StyledComplaintBody = styled.main`
         }
 
         article:nth-child(2){
-        
+
             padding: 1vh;
             border-radius: 1vh;
             background-color: #FAFAFA;
-
+      
             div:nth-child(1){
             
                 justify-content: space-between;
                 align-items: center;
                 padding: 0.5dvh;
+                margin-bottom: 0.5vh;
 
                 h1{
                     font-size: 2vh;
@@ -124,7 +120,7 @@ export const StyledComplaintBody = styled.main`
             }
 
             div:nth-child(2){
-        
+
                 p{
                 
                     margin: 0 0.5vh;
@@ -134,6 +130,7 @@ export const StyledComplaintBody = styled.main`
                     color: #9e9e9e;
                     font-weight: 400;
                     font-size: 1.5vh;
+                    
 
                     span{
                         
@@ -152,21 +149,29 @@ export const StyledComplaintBody = styled.main`
             }
 
             div:nth-child(3){
-            
-                    padding: 1vh;
+              
+                    padding: 1vh 0.5vh;
                     p{
                         padding: 0.5vh 1vh;
                         border-radius: 0.5vh;
                         background: #E0E0E0;
                         font-weight: 500;
                         font-size: 1.5vh;
+                      
                     }
                 }
             }
 
-        p{
-            padding: 0.5vh;
-            color: #484848;
+        .desc{
+            
+            display: flex;
+            flex-direction: column;
+            padding: 1vh 0.5vh;
+            background-color: #FAFAFA;
+            flex-wrap: wrap;
+            overflow: hidden;
+            word-break: break-all;
+            font-size: 1.5vh;
         }
 
         div{
@@ -194,7 +199,7 @@ export const StyledModal = styled.div`
     left: 0%;
 
     form{
-        border: 1px solid red;
+    
         display: flex;
         flex-direction: column;
     }
