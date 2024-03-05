@@ -132,6 +132,7 @@ export default function Perfil() {
 
             return "#D8E8D8"
         } else if (nota > bom) {
+
             return "#9CE4FF"
         } else {
             return "transparent"

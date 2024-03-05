@@ -12,6 +12,7 @@ export const StyledComplaintBody = styled.main`
     flex: 1;
     width: 100vw;
     gap: 2vh;
+    margin-bottom: 2vh;
 
     .loading{
         width: 100vw;
@@ -60,7 +61,10 @@ export const StyledComplaintBody = styled.main`
     section{
 
         width: 55vw;
-       
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+
         article:nth-child(1){
             
             height: 3rem;
@@ -79,12 +83,14 @@ export const StyledComplaintBody = styled.main`
                 :hover{
                     opacity: 0.9;
                 }
+
                 
                 span{
 
                     display: flex;
                     align-items: center;
                     width: 2vh;
+                    margin-right: 1vh;
                     aspect-ratio: 1/1;
                     
                     svg{
@@ -95,7 +101,43 @@ export const StyledComplaintBody = styled.main`
             }
         }
 
-        article:nth-child(2){
+        .avaliation{
+
+            height: 5vh;
+            padding: 1vh;
+            border-radius: 1vh;
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            justify-content: space-between;
+            font-size: 1.5vh;
+            /* margin-bottom: 1vh; */
+
+            div{
+                display: flex;
+                align-items: center;
+                gap: 1vh;
+
+                p{
+                    border-radius: 0.5dvh;
+                    font-size: 1.5vh;
+                    padding: 0.5vh 1vh;
+                }
+            }
+
+            .star{
+                width: 2.5vh;
+                height: 2.5vh;
+                aspect-ratio: 1/1;
+
+                svg{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
+
+        .info{
 
             padding: 1vh;
             border-radius: 1vh;
@@ -161,6 +203,8 @@ export const StyledComplaintBody = styled.main`
                     }
                 }
             }
+
+
 
         .desc{
             

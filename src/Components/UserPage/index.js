@@ -5,12 +5,6 @@ import { StyledHomeUser } from "./style";
 
 export default function HomeUser(props) {
 
-
-    const userType = {
-        ['empresa']: 'Empresa',
-        ['consumidor']: 'Consumidor'
-    }
-
     const normalizeData = (data) => {
 
         if (!data) return "";
@@ -57,8 +51,6 @@ export default function HomeUser(props) {
         return cep;
     }
 
-    console.log(props.cpf)
-
     return (
         <StyledHomeUser>
             <div>
@@ -77,21 +69,17 @@ export default function HomeUser(props) {
                                     {props.cn.length <= 11 ? <p>Cpf: {maskCPF(props.cn)}</p> : <p>CNPJ: {mascaraCNPJ(props.cn)}</p>}
                                     <p>Cidade: {props.cidade}</p>
                                     <p>Email: {props.email}</p>
-                                    {props.cn.length <= 11 ? <p>Dada de nascimento: {normalizeData(props.data)}</p> : <p>Site: {props.site}</p>}
+                                    {props.userType == "consumidor" ? <p>Dada de nascimento: {normalizeData(props.data)}</p> : <p>Site: {props.site ? props.site : "Sem site"}</p>}
                                     <p>Estado: {props.estado}</p>
                                     <p>CEP: {maskCep(props.cep)}</p>
                                 </div>
                             </div>
                         </div>
-                        {props.userType == "Consumidor" ? "":<div className="desc">
+                        {props.userType == "consumidor" ? "" : <div className="desc">
                             <p>Descrição</p>
                             <p>{props.desc ? props.desc : "Sem descrição"}</p>
                         </div>}
                     </article>
-                    {/* <article>
-                        <h3>Descrição</h3>
-                        <p>{props.desc ? props.desc : "Sem descrição"}</p>
-                    </article> */}
                 </section>
             </div>
 

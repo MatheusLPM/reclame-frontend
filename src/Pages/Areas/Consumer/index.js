@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getConsumer, getConsumerComplaints } from "../../../Services/api";
+import { getConsumer, getConsumerComplaints, getUserAuth } from "../../../Services/api";
 
 
 import { StyledButton, StyledConsumerArea } from "./style";
@@ -26,14 +26,15 @@ export default function ConsumerArea() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [data, dataComplaints] = await Promise.all([
+                const [data, dataComplaints, type] = await Promise.all([
                     getConsumer(),
-                    getConsumerComplaints()
+                    getConsumerComplaints(),
+                    getUserAuth(),
 
                 ]);
-                console.log(data);
+
                 setUser(data.user);
-                setType(data.type);
+                setType(type.userType);
                 setAdress(data.address);
                 setUserComplaints(dataComplaints);
                 setIsLoading(false);
@@ -43,8 +44,6 @@ export default function ConsumerArea() {
         };
         fetchData();
     }, []);
-
-    console.log(user)
 
     const componentRender = (menu) => {
         switch (menu) {

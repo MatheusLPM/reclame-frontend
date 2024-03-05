@@ -64,8 +64,6 @@ export default function Complain(props) {
 
                 const { data } = await api.post("reclamacao", formData)
 
-                console.log(data)
-
                 setLoading(false)
 
                 return Swal.fire({

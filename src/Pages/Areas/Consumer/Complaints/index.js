@@ -30,9 +30,6 @@ export default function ConsumerComplaints(props) {
         const searchString = e.target.value;
         setChangeComplaint(searchString);
 
-        console.log(searchString)
-        console.log(autoCompleteResults)
-
         if (searchString.length) {
 
             const autoCompleteValores = searchNormalize(searchString);
@@ -55,7 +52,6 @@ export default function ConsumerComplaints(props) {
         } else if (selectFilter) {
 
             array = consumerComplaints.filter((info) => (info.status === selectFilter) && (info.id_pai == null))
-            //console.log(array)
             return array;
 
         } else {
@@ -113,7 +109,9 @@ export default function ConsumerComplaints(props) {
                         value1="Todos"
                         value2="Aguardando"
                         value3="Respondida"
-                        value4="Não Respondida"
+                        value4="Resolvido"
+                        value5="Não Respondida"
+                        value6="Não Resolvido"
                         onSelectChange={handleSelectChange}
                     />
 

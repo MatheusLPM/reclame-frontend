@@ -12,8 +12,6 @@ import SearchBar from "../SearchBar";
 export default function Header(props) {
 
 
-
-
     return (
         <BodyHeader>
             <Link to="/">

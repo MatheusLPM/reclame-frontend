@@ -44,8 +44,6 @@ export default function AuthHeader() {
         fetchData();
     }, []);
 
-    console.log(userName)
-
     return (
 
         <StyledAuthBody>

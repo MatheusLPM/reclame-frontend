@@ -19,6 +19,8 @@ export default function DropDown(props) {
                 <option value={props.value2} className="placeholder">{props.value2}</option>
                 <option value={props.value3} className="placeholder">{props.value3}</option>
                 <option value={props.value4} className="placeholder">{props.value4}</option>
+                <option value={props.value5} className="placeholder">{props.value5}</option>
+                <option value={props.value6} className="placeholder">{props.value6}</option>
             </select>
         </StyledDropdown>
     );

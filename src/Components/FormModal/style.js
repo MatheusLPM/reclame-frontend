@@ -11,6 +11,7 @@ export const StyledFormModal = styled.div`
     height: 100dvh;
     position: fixed;
     background-color: rgba(0, 0, 0, 0.15);
+    z-index: 999;
 
     top: 0%;
     left: 0%;

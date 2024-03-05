@@ -22,7 +22,6 @@ export default function FormModal(props) {
 
     const [loading, setLoading] = useState(false);
 
-
     useEffect(() => {
         setCategoria(String(props.categoria));
         setEmpresa(String(props.empresa));
@@ -75,8 +74,7 @@ export default function FormModal(props) {
 
             try {
                 setLoading(true);
-                const { data } = await api.post("resposta/reclamacao", formData)
-                console.log(data)
+                const { data } = await api.post("resposta/reclamacao", formData);
 
                 setLoading(false);
                 return Swal.fire({
@@ -86,27 +84,27 @@ export default function FormModal(props) {
                         confirmButton: 'custom-confirm-button-class',
                     },
                 }).then((result) => {
-                    props.onSubmit()
+                    props.onSubmit();
                     props.handleCloseModal();
 
                 });
 
             } catch (error) {
 
-                const erro = normalizeError(error.response.data.message)
-                console.log(erro)
-                setLoading(false)
+                const erro = normalizeError(error.response.data.message);
+
+                setLoading(false);
                 return Swal.fire({
                     icon: "error",
                     text: erro,
                     customClass: {
                         confirmButton: 'custom-confirm-button-class',
                     },
-                })
+                });
             }
 
         } else {
-            console.log("erro")
+            console.log("erro");
         }
     }
 

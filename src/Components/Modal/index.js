@@ -3,7 +3,7 @@ import { StyledModal } from "./style";
 import Swal from "sweetalert2";
 import FormModal from "../FormModal";
 import { useSpring, animated } from "react-spring";
-import Rank from "./Rank";
+import Avaliation from "./Avaliation";
 
 
 export default function Modal(props) {
@@ -60,8 +60,6 @@ function HandleChangeModal({ showModal, setState, handleCloseModal, categoria, c
             velocity: 0.036
         }
     });
-
-
 
     const handleResponse = (handleCloseModal, response) => {
         if (response) {
@@ -126,9 +124,10 @@ function HandleChangeModal({ showModal, setState, handleCloseModal, categoria, c
             {
                 showModal === "sim" &&
                 (<StyledModal onClick={handleClickOutsideModal}>
-                    <Rank
+                    <Avaliation
                         rank={rank}
                         reclamacao={pai}
+                        handleCloseModal={handleCloseModal}
                     />
                 </StyledModal>)
             }
