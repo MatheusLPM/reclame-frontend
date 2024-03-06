@@ -1,27 +1,21 @@
 import React, { useState, useEffect } from "react";
-
 import { getConsumer, getConsumerComplaints, getUserAuth } from "../../../Services/api";
-
-
 import { StyledButton, StyledConsumerArea } from "./style";
 import ConsumerComplaints from "./Complaints";
 import ComplaintArea from "../../../Components/ComplantArea";
-
-import ReactLoading from "react-loading"
+import ReactLoading from "react-loading";
 import HomeUser from "../../../Components/UserPage";
 
-
 export default function ConsumerArea() {
-
     const [user, setUser] = useState({});
-    const [address, setAdress] = useState({});
+    const [address, setAddress] = useState({});
     const [userComplaints, setUserComplaints] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [menu, setMenu] = useState("Inicio");
+    const [menu, setMenu] = useState(() => {
+        return localStorage.getItem("menu") || "Inicio";
+    });
     const [type, setType] = useState();
-
-    const options = ["Inicio", "Reclamações", "Configurações", "Fazer reclamação"]
-
+    const options = ["Inicio", "Reclamações", "Configurações", "Fazer reclamação"];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,20 +24,24 @@ export default function ConsumerArea() {
                     getConsumer(),
                     getConsumerComplaints(),
                     getUserAuth(),
-
                 ]);
 
                 setUser(data.user);
                 setType(type.userType);
-                setAdress(data.address);
+                setAddress(data.address);
                 setUserComplaints(dataComplaints);
                 setIsLoading(false);
+
             } catch (error) {
                 console.error('Erro', error)
             }
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("menu", menu);
+    }, [menu]);
 
     const componentRender = (menu) => {
         switch (menu) {
@@ -59,25 +57,32 @@ export default function ConsumerArea() {
                         cep={address.cep}
                         userType={type}
                     />
-                )
+                );
 
             case "Reclamações":
-                return (userComplaints.length > 0 ?
-                    <ConsumerComplaints
-                        consumerComplaints={userComplaints}
-                    /> : <h2 className="empty">Sem Reclamações</h2>)
+                return (
+                    userComplaints.length > 0 ? (
+                        <ConsumerComplaints
+                            consumerComplaints={userComplaints}
+                        />
+                    ) : (
+                        <h2 className="empty">Sem Reclamações</h2>
+                    )
+                );
 
             case "Fazer reclamação":
-                return (<ComplaintArea />)
+                return <ComplaintArea />;
+
+            case "Configurações":
+                return "configuraçoes";
 
             default:
-                return
+                return null;
         }
     };
 
     const handleSelectedLink = (item) => {
-
-        setMenu(item)
+        setMenu(item);
     };
 
     return (
@@ -86,7 +91,7 @@ export default function ConsumerArea() {
                 <div className="loading">
                     <ReactLoading type="spinningBubbles" color="#E7E7E7" />
                 </div>
-            ) :
+            ) : (
                 <>
                     <div>
                         <nav>
@@ -105,7 +110,7 @@ export default function ConsumerArea() {
                         {componentRender(menu)}
                     </div>
                 </>
-            }
+            )}
         </StyledConsumerArea>
     );
 }

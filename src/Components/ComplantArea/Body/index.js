@@ -1,38 +1,18 @@
 import React from "react";
 import StyledBody from "./style"
+import { statusBackground, statusColor } from "../../../Services/functionValidations";
 
 export default function ComplaintUserBody(props) {
 
-    const statusColor = (status) => {
-
-        if (status == "Aguardando") {
-            return ('#212121');
-        } else if (status == "Não Respondida") {
-            return ('#CE0000');
-        } else if (status == "Respondida") {
-            return ('#00A11A');
-        } else if (status == "Resolvido") {
-            return ("#00A11A");
-        }
-    }
-    const statusBackground = (status) => {
-        if (status == "Aguardando") {
-            return ('#E0E0E0');
-        } else if (status == "Não Respondida") {
-            return ('#F1DDDD');
-        } else if (status == "Respondida") {
-            return ('#DDEDDF');
-        } else if (status == "Resolvido") {
-            return ('#DDEDDF');
-        };
-    };
-
     return (
         <StyledBody>
-            <div>
-                <h3>Empresa: {props.nome_empresa}</h3>
-            </div>
-            <div>
+            {props.nome_empresa ?
+                <div className="name-company">
+                    <h3>Empresa: {props.nome_empresa}</h3>
+                </div> :
+                ""
+            }
+            <div className="title-subtitle">
                 <p>{props.title}</p>
                 <p>{props.descricao}</p>
             </div>

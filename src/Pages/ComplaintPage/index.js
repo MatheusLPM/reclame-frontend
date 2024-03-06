@@ -4,7 +4,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ReactLoading from 'react-loading';
 import { StyledComplaintBody } from "./style";
 import { findChildrenComplaint, getUserAuth, showCompanyComplaints } from "../../Services/api";
-import { newData } from "../../Services/functionValidations";
+import { newData, statusBackground, statusColor } from "../../Services/functionValidations";
 import FormModal from "../../Components/FormModal";
 import ResponseComplaint from "../../Components/Complaint/ResponseBody";
 import Modal from "../../Components/Modal";
@@ -19,7 +19,7 @@ export default function ComplaintPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [complaint, setComplaint] = useState([]);
     const [user, setUser] = useState(null);
-    const [userType, setUserType] = useState(null);
+    // const [userType, setUserType] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showChildren, setShowChildren] = useState([]);
     const [status, setStatus] = useState('');
@@ -47,11 +47,11 @@ export default function ComplaintPage(props) {
         }
     }
 
-    console.log(complaint.categoria_reclamacao)
+    // console.log(complaint.categoria_reclamacao)
 
     useEffect(() => {
         setStatus(status);
-    }, [complaint.id_status])
+    }, [status])
 
     useEffect(() => {
         updateChildren();
@@ -60,6 +60,7 @@ export default function ComplaintPage(props) {
     const confirmCancel = async () => {
         try {
             const { data } = await api.delete(`reclamacao/cancel/${id}`);
+
             Swal.fire({
                 title: "Cancelada!",
                 text: "Reclamação cancelada com sucesso",
@@ -76,6 +77,7 @@ export default function ComplaintPage(props) {
 
 
     const handleCancelComplaint = () => {
+
         Swal.fire({
             title: "Tem certeza?",
             text: "Ao clicar em sim a reclamação será cancelada!",
@@ -95,10 +97,8 @@ export default function ComplaintPage(props) {
                 await confirmCancel();
                 navigate(-1);
             }
-
         });
     };
-
 
     useEffect(() => {
         if (complaint == undefined) {
@@ -167,31 +167,6 @@ export default function ComplaintPage(props) {
             return complaint.status;
         }
     }
-
-    const statusColor = (status) => {
-
-        if (status == "Aguardando") {
-            return ('#212121');
-        } else if (status == "Não Respondida") {
-            return ('#CE0000');
-        } else if (status == "Respondida") {
-            return ('#00A11A');
-        } else if (status == "Resolvido") {
-            return ("#00A11A");
-        }
-    }
-
-    const statusBackground = (status) => {
-        if (status == "Aguardando") {
-            return ('#E0E0E0');
-        } else if (status == "Não Respondida") {
-            return ('#F1DDDD');
-        } else if (status == "Respondida") {
-            return ('#DDEDDF');
-        } else if (status == "Resolvido") {
-            return ('#DDEDDF');
-        };
-    };
 
     const handleFallback = () => {
         navigate(-1);

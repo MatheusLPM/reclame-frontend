@@ -11,7 +11,6 @@ export default function Modal(props) {
     const [stateModal, setStateModal] = useState("modal");
     // const [resposta, setResposta] = useState();
 
-
     return (
         <>
             <HandleChangeModal
@@ -32,6 +31,7 @@ export default function Modal(props) {
 function HandleChangeModal({ showModal, setState, handleCloseModal, categoria, consumidor, empresa, pai, onSubmit, tipo }) {
 
     const rank = Array.from({ length: 11 }, (_, index) => index);
+    const noRank = Array.from({ length: 6 }, (_, index) => index);
 
     const handleClickOutsideModal = (e) => {
         if (e.target === e.currentTarget) {
@@ -115,7 +115,7 @@ function HandleChangeModal({ showModal, setState, handleCloseModal, categoria, c
                     <section >
                         <h2>Deseja enviar uma nova reclamacao ?</h2>
                         <div className="response-button">
-                            <button className="response-button-yes" onClick={() => handleResponse(handleCloseModal, false)}>Não</button>
+                            <button className="response-button-yes" onClick={(e) => setState("form-no")}>Não</button>
                             <button className="response-button-yes" onClick={(e) => setState("form")}>Sim</button>
                         </div>
                     </section>
@@ -128,6 +128,18 @@ function HandleChangeModal({ showModal, setState, handleCloseModal, categoria, c
                         rank={rank}
                         reclamacao={pai}
                         handleCloseModal={handleCloseModal}
+                        status={true}
+                    />
+                </StyledModal>)
+            }
+            {
+                showModal === "form-no" &&
+                (<StyledModal onClick={handleClickOutsideModal}>
+                    <Avaliation
+                        rank={noRank}
+                        reclamacao={pai}
+                        handleCloseModal={handleCloseModal}
+                        status={false}
                     />
                 </StyledModal>)
             }

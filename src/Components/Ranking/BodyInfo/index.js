@@ -73,7 +73,7 @@ export default function BodyInfo(props) {
 
             <div>
                 <img alt="logo" src="/assets/briefcase-fill-black.svg" ></img>
-                <p>{props.nota != "" ? props.nota : "No"}</p>
+                <p>{props.nota != "" ? props.nota : 0}</p>
             </div>
             <div>
                 <p>{props.nome}</p>

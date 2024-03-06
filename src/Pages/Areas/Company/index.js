@@ -14,8 +14,10 @@ export default function CompanyArea() {
     const [user, setUser] = useState({});
     const [address, setAdress] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [menu, setMenu] = useState("Inicio");
     const [userComplaints, setUserComplaints] = useState({});
+    const [menu, setMenu] = useState(() => {
+        return localStorage.getItem("menu") || "Inicio";
+    });
 
     const options = ["Inicio", "Reclamações", "Configurações"];
 
@@ -37,6 +39,10 @@ export default function CompanyArea() {
         };
         fetchData();
     }, []);
+
+    useEffect(() => {
+        localStorage.setItem("menu", menu);
+    }, [menu]);
 
     const componentRender = (menu) => {
         switch (menu) {

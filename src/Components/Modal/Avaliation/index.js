@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyledButtonRank, StyledRank } from "./style";
 import Swal from "sweetalert2";
 import { api } from "../../../Services/server";
@@ -19,24 +19,22 @@ export default function Avaliation(props) {
         setSelectAvaliation(item);
     }
 
-    console.log("pai", props.reclamacao);
-
     const sendAvaliation = async (reclamacao) => {
-
 
         if (selectAvaliation) {
 
-            const $formData = {
+            const formData = {
                 nota: selectAvaliation,
-                id_reclamacao: reclamacao
+                id_reclamacao: reclamacao,
+                status: props.status
             }
-
-            console.log($formData);
-
+            console.log("aqui:", formData)
             try {
+
                 setLoading(true);
-                const { data } = await api.post('/avaliacao/inserir', $formData);
+                const { data } = await api.post('/avaliacao/inserir', formData);
                 console.log("enviou", data);
+
                 setLoading(false);
                 return true;
 
@@ -46,13 +44,9 @@ export default function Avaliation(props) {
             }
         }
         return false;
-
     }
 
     const handleSendRank = (item) => {
-
-        // console.log("nota:", item)
-        // console.log("pai:", props.reclamacao)
 
         Swal.fire({
             title: "Tem certeza?",
@@ -83,11 +77,11 @@ export default function Avaliation(props) {
                     buttonsStyling: false
                 });
                 props.handleCloseModal();
+
+                return 0;
             }
         });
     }
-
-    console.log(selectAvaliation)
 
     return (
         <StyledRank className="rank">

@@ -20,7 +20,7 @@ const StyledBody = styled.article`
         border: 1px solid #000;
     }
 
-    div:nth-child(1){
+    .name-company{
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -35,7 +35,7 @@ const StyledBody = styled.article`
     }
 
 
-    div:nth-child(2){
+    .title-subtitle{
         
         display: flex;
         flex-direction: column;

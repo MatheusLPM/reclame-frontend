@@ -11,7 +11,7 @@ import { getCompany } from "../../Services/api";
 import ReactLoading from 'react-loading';
 
 
-export default function Home(props) {
+export default function Home() {
 
     const [category, setCategory] = useState("Todos");
     const [company, setCompany] = useState([0]);

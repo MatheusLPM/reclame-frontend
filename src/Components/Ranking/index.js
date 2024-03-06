@@ -45,10 +45,9 @@ export default function Ranking(props) {
                     (props.bodyInfoList.slice(0, 15).map((info, index) => (
                         <Link to={`/perfil/empresa/${info.id}`} style={{ textDecoration: 'none' }} key={index}>
                             <BodyInfo
-
                                 key={index}
                                 nome={info.nome}
-                                nota={info.media ? info.media : 0}
+                                nota={info.media}
                                 status={info.status}
                             />
                         </Link>

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { newData } from "../../../../Services/functionValidations";
 import EmptyComplaint from "../../../../Components/EmptyComplaint";
 import { StyledDiv } from "./style";
-import ComplaintUserBody from "../../../../Components/ComplantArea/Body";
 
 export default function CompanyComplaints(props) {
 
@@ -73,13 +72,12 @@ export default function CompanyComplaints(props) {
             return (
                 newArray.map((info, index) => (
                     <Link key={index} to={`/reclamacao/${normalizeString(info.nome_empresa)}/${info.id}`}>
-                        <ComplaintUserBody
+                        <ComplaintBody
                             key={index}
                             title={info.titulo}
                             descricao={info.descricao}
                             status={info.status}
                             data={newData(info.created_at)}
-                            nome_empresa={info.nome_empresa}
                         />
                     </Link>
                 ))

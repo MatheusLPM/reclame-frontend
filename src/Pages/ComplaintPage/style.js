@@ -126,8 +126,8 @@ export const StyledComplaintBody = styled.main`
             }
 
             .star{
-                width: 2.5vh;
-                height: 2.5vh;
+                width: 2vh;
+                height: 2vh;
                 aspect-ratio: 1/1;
 
                 svg{

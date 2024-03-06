@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { api } from "../../Services/server";
 import { StyledAuthBody } from "./style";
@@ -9,6 +9,7 @@ export default function AuthHeader() {
 
     const [user, setUser] = useState([""]);
     const [userName, setUserName] = useState(null);
+    const [userType, setUserType] = useState();
     const navigate = useNavigate();
 
     const handleLogOut = async (event) => {
@@ -36,13 +37,17 @@ export default function AuthHeader() {
                 ]);
 
                 setUser(data);
-                setUserName(data.user.nome)
+                setUserName(data.user.nome);
+                setUserType(data.userType);
             } catch (error) {
                 console.error('Erro', error)
             }
         };
         fetchData();
     }, []);
+
+
+    console.log(userType)
 
     return (
 

@@ -184,3 +184,32 @@ export function newData(date) {
     return dataFormatada
 
 }
+
+export function statusColor(status) {
+
+    if (status == "Aguardando") {
+        return ('#212121');
+    } else if (status == "Não Respondida") {
+        return ('#CE0000');
+    } else if (status == "Respondida") {
+        return ('#00A11A');
+    } else if (status == "Resolvido") {
+        return ("#00A11A");
+    } else {
+        return ('#CE0000');
+    }
+}
+
+export function statusBackground(status) {
+    if (status == "Aguardando") {
+        return ('#E0E0E0');
+    } else if (status == "Não Respondida") {
+        return ('#F1DDDD');
+    } else if (status == "Respondida") {
+        return ('#DDEDDF');
+    } else if (status == "Resolvido") {
+        return ('#DDEDDF');
+    } else {
+        return ('#F1DDDD');
+    };
+};
