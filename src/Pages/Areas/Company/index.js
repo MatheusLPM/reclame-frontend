@@ -8,6 +8,7 @@ import { StyledButton, StyledConsumerArea } from "../Consumer/style";
 import ReactLoading from "react-loading"
 import HomeUser from "../../../Components/UserPage";
 import CompanyComplaints from "./Complaints";
+import ConfigCompany from "./ConfigPage";
 
 export default function CompanyArea() {
 
@@ -68,7 +69,7 @@ export default function CompanyArea() {
                     /> : <h2 className="empty">Sem Reclamações</h2>);
 
             case "Configurações":
-                return "Configurações";
+                return <ConfigCompany empresa={user.id} />;
 
             default:
                 return "";

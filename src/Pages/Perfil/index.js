@@ -24,6 +24,7 @@ export default function Perfil() {
     const [company, setCompany] = useState([]);
     const [companyComplaints, setCompanyComplaints] = useState([]);
     const [newNameBusinnes, setNewNameBusinnes] = useState("");
+    const [history, setHistory] = useState();
     const [isLoading, setIsLoading] = useState(true);
 
     const normalizeString = (str) => {
@@ -41,6 +42,7 @@ export default function Perfil() {
                 setNewNameBusinnes(normalizeString(data.nome).replace(' ', '-'));
                 setCompanyComplaints(complaints);
                 setCompany(data);
+                setHistory(data.historico);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Erro', error);
@@ -53,6 +55,7 @@ export default function Perfil() {
     const ruim = 4;
     const regular = 7;
     const bom = 8.5;
+
 
     const selectColor = (nota) => {
 
@@ -253,6 +256,8 @@ export default function Perfil() {
                                 background={selectBackground(company.media)}
                                 status={showStatus(company.media)}
                                 emoji={showSmile(company.media)}
+                                naoRespondida={history.naoRespondida}
+                                total={history.totalAvaliadas}
                             />
 
                         </article>

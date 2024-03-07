@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 
-export const StyledConsumerArea = styled.nav`
+export const StyledConsumerArea = styled.main`
 
 
     display: flex;

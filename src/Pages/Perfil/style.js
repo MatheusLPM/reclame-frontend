@@ -71,26 +71,6 @@ export const BodyPerfil = styled.main`
         }
     }
 
-    article:nth-child(2){
-     
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-
-        p{
-            width: 100%;    
-            
-            &:first-child{
-                font-weight: 500;
-            }
-
-            &:last-child{
-                font-weight: 400;
-                text-align: justify;
-                color: #484848;
-            }
-        }
-    }
 
     header{
 
@@ -107,7 +87,6 @@ export const BodyPerfil = styled.main`
             display: flex;
             flex-direction: row;
             justify-content: space-between;
-            height: 6rem;
 
             img{
                 display: flex;
@@ -121,7 +100,26 @@ export const BodyPerfil = styled.main`
                 padding: 0.5rem;
                 background: #EDEDED;
             }
-            
+        }
+        article:nth-child(2){
+     
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+
+            p{
+                width: 100%;    
+                
+                &:first-child{
+                    font-weight: 500;
+                }
+
+                &:last-child{
+                    font-weight: 400;
+                    text-align: justify;
+                    color: #484848;
+                }
+            }
         }
     }
 
@@ -167,13 +165,21 @@ export const BodyPerfil = styled.main`
             cursor: pointer;
         }
     }
+
+    @media (max-width: 1500px) {
+        header{
+            article:nth-child(1){
+                flex-direction: column;
+                row-gap: 2vh;
+            }
+        }        
+    }
 `;
 
 export const StyledPerfilInfo = styled.div`
 
     display: flex;
     flex-direction: row;
-   
 
     div{
      

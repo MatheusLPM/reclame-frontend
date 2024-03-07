@@ -4,8 +4,6 @@ import styled from "styled-components";
 
 export const StyledComplaint = styled.div`
    
-    width: 52%;
-
     section{
 
         display: flex;
@@ -14,14 +12,14 @@ export const StyledComplaint = styled.div`
         width: 100%;
         height: 100%;
         color: #212121;
-        
+        flex-wrap: wrap;
+        column-gap: 3vh;
+
         div{
 
             height: 100%;
-            padding: 1rem;
-            width: auto;
+            padding: 1.5vh;
     
-
             p{
                 display: flex;
                 align-items: center;
@@ -30,33 +28,33 @@ export const StyledComplaint = styled.div`
 
             svg{
       
-                width: 1.2rem;
-                height: 1.2rem;
+                width: 2vh;
+                height: 2vh;
             }
 
             p:first-child{
                 height: 35%;
-                padding: 0.5rem;
+                padding: 0.5vh;
                 color: #9E9E9E;
                 font-weight: 500;
             }
             p:last-child{
                 height: 65%;
                 font-weight: 700;
-                font-size: 1.5rem;
-                gap: 0.5rem;
+                font-size: 1.8vh;
+                gap: 1vh;
             }
         }
 
-        div:last-child{
+        .classification{
            
-            padding: 1rem;
+            padding: 1vh 3vh;
             background-color: #F0F0F0;
-            border-radius: 0.5rem;
+            border-radius: 0.5vh;
 
             p:first-child{
                 color: #212121;
-                
+                font-size: 100%;
             }
 
             span:last-child{
@@ -65,13 +63,17 @@ export const StyledComplaint = styled.div`
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-                font-size: 1rem;
-                padding: 0.2rem;
-                border-radius: 0.5rem;
-                gap:0.5rem;
+                font-size: 1.5vh;
+                padding: 0.5vh;
+                border-radius: 0.5vh;
+                gap:0.5vh;
             }
         }
-        
-    }
 
+        @media (max-width: 937px) {
+            .classification{
+                display: none;
+            } 
+        }
+    }
 `;

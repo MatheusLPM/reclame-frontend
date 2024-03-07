@@ -25,7 +25,7 @@ export const StyledForm = styled.form`
     }
     input{
 
-        width: 97%;
+        width: 100%;
         height: 3rem;
         border-radius: 0.5rem;
         border: 2px solid #E0E0E0;

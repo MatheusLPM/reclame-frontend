@@ -74,7 +74,7 @@ export default function ConsumerArea() {
                 return <ComplaintArea />;
 
             case "Configurações":
-                return "configuraçoes";
+                return "";
 
             default:
                 return null;

@@ -12,7 +12,6 @@ export default function SearchBar(props) {
     const [findGetCompany, setFindGetCompany] = useState([]);
     const [inputValue, setInputValue] = useState("");
 
-
     const handleLinkClick = () => {
         setFindGetCompany([]);
     };
