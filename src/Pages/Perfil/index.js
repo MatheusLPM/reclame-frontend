@@ -26,6 +26,7 @@ export default function Perfil() {
     const [newNameBusinnes, setNewNameBusinnes] = useState("");
     const [history, setHistory] = useState();
     const [isLoading, setIsLoading] = useState(true);
+    const [perfil, setPerfil] = useState();
 
     const normalizeString = (str) => {
         return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\sÀ-ú]/gi, "").toLowerCase();
@@ -43,6 +44,7 @@ export default function Perfil() {
                 setCompanyComplaints(complaints);
                 setCompany(data);
                 setHistory(data.historico);
+                setPerfil(data.perfil);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Erro', error);
@@ -55,6 +57,8 @@ export default function Perfil() {
     const ruim = 4;
     const regular = 7;
     const bom = 8.5;
+
+    console.log(perfil)
 
 
     const selectColor = (nota) => {
@@ -180,7 +184,6 @@ export default function Perfil() {
         } else if (selectFilter) {
 
             array = companyComplaints.filter((info) => (info.status === selectFilter) && (info.id_pai == null))
-            //console.log(array)
             return array;
 
         } else {
@@ -237,12 +240,12 @@ export default function Perfil() {
                     <ReactLoading type="spinningBubbles" color="#E7E7E7" />
                 </div>
             ) :
-                <section>
+                <section className="principal-container">
 
                     <header>
                         <article>
                             <StyledPerfilInfo>
-                                <img alt="logo" src="/assets/briefcase-fill-black.svg" ></img>
+                                <img alt="logo" src={perfil ? `http://localhost:8000/storage/${perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
                                 <div>
                                     <h2>{company.nome}</h2>
                                     <p>{company.nome_categoria}</p>
@@ -263,12 +266,12 @@ export default function Perfil() {
                         </article>
                         <article>
                             <p>Descrição</p>
-                            <p>{company.descricao ? company.descricao : "Sem descrição"}</p>
+                            <p>{perfil ? perfil.descricao : "Sem descrição"}</p>
                         </article>
 
                     </header>
 
-                    <section>
+                    <section className="search-area">
                         <h2>Reclamações</h2>
                         <div>
                             <DropDown
@@ -293,7 +296,7 @@ export default function Perfil() {
                     </section>
 
                     <section>
-                        <article>
+                        <article className="complaints">
                             {arrayFilter(companyComplaints, newNameBusinnes)}
                         </article>
 

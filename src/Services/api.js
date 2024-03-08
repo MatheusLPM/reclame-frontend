@@ -159,3 +159,13 @@ export const findChildrenComplaint = async (id) => {
         throw error;
     }
 }
+
+export const showPerfil = async (id) => {
+    try {
+        const { data } = await api.get(`perfil/${id}`);
+        return data;
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}

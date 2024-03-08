@@ -4,7 +4,6 @@ import { StyledHomeUser } from "./style";
 
 
 export default function HomeUser(props) {
-
     const normalizeData = (data) => {
 
         if (!data) return "";
@@ -62,16 +61,24 @@ export default function HomeUser(props) {
 
                     <article>
                         <div className="container">
-                            <img alt="logo" src={props.cn.length <= 11 ? "/assets/person-fill.svg" : "/assets/briefcase-fill.svg"} />
+                            <img
+                                alt="logo"
+                                src={
+                                    props.userType === "consumidor"
+                                        ? "/assets/person-fill.svg"
+                                        : (props.logo ? `http://localhost:8000/storage/${props.logo}` : "/assets/briefcase-fill-black.svg")
+                                }
+                            />
                             <div className="info">
                                 <h2>{props.nome}</h2>
                                 <div>
-                                    {props.cn.length <= 11 ? <p>Cpf: {maskCPF(props.cn)}</p> : <p>CNPJ: {mascaraCNPJ(props.cn)}</p>}
+                                    {props.userType <= "consumidor" ? <p>Cpf: {maskCPF(props.cn)}</p> : <p>CNPJ: {mascaraCNPJ(props.cn)}</p>}
                                     <p>Cidade: {props.cidade}</p>
                                     <p>Email: {props.email}</p>
                                     {props.userType == "consumidor" ? <p>Dada de nascimento: {normalizeData(props.data)}</p> : <p>Site: {props.site ? props.site : "Sem site"}</p>}
                                     <p>Estado: {props.estado}</p>
                                     <p>CEP: {maskCep(props.cep)}</p>
+
                                 </div>
                             </div>
                         </div>

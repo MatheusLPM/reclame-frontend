@@ -12,27 +12,30 @@ export const BodyPerfil = styled.main`
     flex: 1;
     min-height: 100%;
 
-    section{
+    .principal-container{
         width: 70%;
+        height: 100%;
     }
 
     .loading{
 
         width: 100dvw;
-        min-height: 90dvh;
+        height: 90vh;
         display: flex;
         flex-direction: row;
         justify-content: center;
         align-items: center;
     }
 
-    section:nth-child(2){
+    .search-area{
 
         width: 100%;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         margin-top: 1rem;
+        align-items: center;
+
 
         div{
           
@@ -92,13 +95,15 @@ export const BodyPerfil = styled.main`
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                width: 6rem;
+                width: 10vh;
+                height: 100%;
                 margin-right: 1rem;
                 color: white;
                 font-size: 1.5rem;
                 border-radius: 0.5rem;
                 padding: 0.5rem;
                 background: #EDEDED;
+                aspect-ratio: 1/1;
             }
         }
         article:nth-child(2){
@@ -108,7 +113,9 @@ export const BodyPerfil = styled.main`
             gap: 0.5rem;
 
             p{
-                width: 100%;    
+                width: 100%;
+                word-break: break-all;
+
                 
                 &:first-child{
                     font-weight: 500;
@@ -117,6 +124,7 @@ export const BodyPerfil = styled.main`
                 &:last-child{
                     font-weight: 400;
                     text-align: justify;
+                    word-break: break-all;
                     color: #484848;
                 }
             }
@@ -129,21 +137,22 @@ export const BodyPerfil = styled.main`
         flex-direction: column;
         width: 100%;
         background-color: #FAFAFA;
-        margin: 1rem 0;
-        border-radius: 1rem;
-        padding: 1rem;
+        margin: 1vh 0;
+        border-radius: 1vh;
+        padding: 1.5vh;
         overflow: hidden;
         max-height: 36rem;
         gap: 1rem;
         position: relative;
         align-items: center;
+
         
-        article{
+        .complaints{
             overflow-x: hidden;
             scroll-behavior: smooth;
             scrollbar-width: none;
             width: 100%;
-        
+            height: 90%;
         }
 
         a{
@@ -163,6 +172,7 @@ export const BodyPerfil = styled.main`
             background-color: transparent;
             border: none;
             cursor: pointer;
+            height: 10%;
         }
     }
 
@@ -174,12 +184,46 @@ export const BodyPerfil = styled.main`
             }
         }        
     }
+
+    @media (max-width: 813px) {
+        .search-area{
+            flex-direction: column;
+
+            h2{
+                width: 100%;
+            }
+            div{
+                width: 100%;
+            }
+        }
+    }
+
+    @media (max-width: 505px) {
+        .search-area{
+            div{
+                flex-direction: column;
+
+                input{
+                    width: 100%;
+                    margin-left: 0;
+                }
+
+                select{
+                    height: 2rem;
+                }
+            }
+        }
+    }
 `;
 
 export const StyledPerfilInfo = styled.div`
 
     display: flex;
     flex-direction: row;
+
+    img{
+        object-fit: contain;
+    }
 
     div{
      

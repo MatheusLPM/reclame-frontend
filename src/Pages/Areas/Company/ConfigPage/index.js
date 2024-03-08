@@ -20,26 +20,35 @@ export default function ConfigCompany(props) {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-
-        const formData = {
-            descricao,
-            fotoPerfil,
-            id_empresa: props.empresa,
+        if (descricao == '' && fotoPerfil == null) {
+            return Swal.fire({
+                position: "center",
+                icon: "error",
+                text: "Campos vazios",
+                showConfirmButton: false,
+            });
         }
 
-        if (formData.descricao == '' && formData.fotoPerfil == null) {
-            return false;
+        const formData = new FormData();
+
+        formData.append('descricao', descricao);
+        if (fotoPerfil != null) {
+            formData.append('fotoPerfil', fotoPerfil);
+
         }
+        formData.append('id_empresa', props.empresa);
 
         try {
 
-            console.log(formData);
-
-            const { data } = await api.post('perfil/empresa', formData);
+            const { data } = await api.post('perfil/empresa', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
 
             console.log(data)
 
-            return Swal.fire({
+            Swal.fire({
                 position: "center",
                 icon: "success",
                 title: "Dados salvos com sucesso",
@@ -50,7 +59,7 @@ export default function ConfigCompany(props) {
         } catch (error) {
             const erro = normalizeError(error.response.data.message);
 
-            return Swal.fire({
+            Swal.fire({
                 position: "center",
                 icon: "error",
                 text: erro,
@@ -78,7 +87,7 @@ export default function ConfigCompany(props) {
                 <form >
                     <label htmlFor="descricao">Descrição</label>
                     <textarea
-                        maxLength="1000"
+                        maxLength="650"
                         className="desc"
                         id="descricao"
                         placeholder="Adicione uma descrição..."

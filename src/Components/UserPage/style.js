@@ -10,7 +10,11 @@ export const StyledHomeUser = styled.div`
     width: 100%;
     flex: 1;
  
-
+    p{
+        word-break: break-all;
+        hyphens: auto;
+        overflow-wrap: break-word;
+    }
     
     div{
         
@@ -61,6 +65,12 @@ export const StyledHomeUser = styled.div`
                     display: flex;
                     flex-direction: row;
                     gap: 1dvh;
+
+
+                    img{
+                        object-fit: contain;
+                        background-color: rgb(237, 237, 237);
+                    }
  
                 }
                 .info{

@@ -2,13 +2,14 @@ import React from "react";
 
 
 import { useEffect, useState } from "react";
-import { getShowCompany, getCompanyComplaints } from "../../../Services/api";
+import { getShowCompany, getCompanyComplaints, showPerfil } from "../../../Services/api";
 import { StyledButton, StyledConsumerArea } from "../Consumer/style";
 
 import ReactLoading from "react-loading"
 import HomeUser from "../../../Components/UserPage";
 import CompanyComplaints from "./Complaints";
 import ConfigCompany from "./ConfigPage";
+import { api } from "../../../Services/server";
 
 export default function CompanyArea() {
 
@@ -20,6 +21,7 @@ export default function CompanyArea() {
         return localStorage.getItem("menu") || "Inicio";
     });
 
+    const [perfil, setPerfil] = useState(['']);
     const options = ["Inicio", "Reclamações", "Configurações"];
 
     useEffect(() => {
@@ -27,12 +29,13 @@ export default function CompanyArea() {
             try {
                 const [data, dataComplaints] = await Promise.all([
                     getShowCompany(),
-                    getCompanyComplaints()
-
+                    getCompanyComplaints(),
                 ]);
+
                 setUser(data.user);
                 setAdress(data.address);
                 setUserComplaints(dataComplaints);
+                setPerfil(data.perfil);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Erro', error);
@@ -58,7 +61,8 @@ export default function CompanyArea() {
                         estado={address.uf}
                         cep={address.cep}
                         site={user.site}
-                        des={user.desc}
+                        desc={perfil ? perfil.descricao : false}
+                        logo={perfil ? perfil.foto_perfil : false}
                         userType={localStorage.getItem('tipo')}
                     />);
 
