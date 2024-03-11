@@ -17,6 +17,7 @@ export const StyledCBodyComplaint = styled.article`
     border-radius: 0.5rem;
     border: 1px solid #f5f5f5 ;
     overflow: hidden;
+    
 
     &:hover{
         border: 1px solid #000;

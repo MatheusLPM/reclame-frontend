@@ -30,6 +30,8 @@ export default function Home() {
         fetchData();
     }, []);
 
+    console.log(company)
+
     const arrayMaior = company.filter((item) => (
         (item.media >= 6) && (category === "Todos" || item.nome_categoria === category)
     )).sort((a, b) => b.media - a.media);

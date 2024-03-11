@@ -56,7 +56,6 @@ export default function FormModal(props) {
         return erro.replace(/\([^)]*\)/g, '');
     }
 
-    //console.log({titulo:titulo,descricao:descricao,id_categoria:categoria,id_empresa:empresa,id_consumidor:consumidor,pai:pai})
 
     const handleSubmit = async (event) => {
         event.preventDefault();

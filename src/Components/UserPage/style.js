@@ -140,9 +140,6 @@ export const StyledHomeUser = styled.div`
                 }
             }
         }
-        section:nth-child(2){
-           
-        }
     }
 
     @media (max-width: 785px) {

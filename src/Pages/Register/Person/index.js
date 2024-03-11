@@ -77,7 +77,6 @@ export default function Person(props) {
                 senha,
             };
 
-            //console.log(formData);
 
             try {
                 setLoading(true)
@@ -87,7 +86,7 @@ export default function Person(props) {
                 const token = data.authorization.token
 
                 localStorage.setItem('token', token)
-                //localStorage.setItem('tipo', "consumidor")
+                localStorage.setItem('tipo', "consumidor")
 
                 console.log(token)
 

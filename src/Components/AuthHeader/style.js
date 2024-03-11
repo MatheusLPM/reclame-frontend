@@ -13,6 +13,7 @@ export const StyledAuthBody = styled.section`
     height: 100%;
     font-size: 1.5dvh;
     
+    
     button{
     
         width: 5rem;

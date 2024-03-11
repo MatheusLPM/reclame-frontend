@@ -20,7 +20,7 @@ export default function Principal() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/perfil/empresa/:id" element={<Perfil />} />
-                <Route path="/reclamacao/:nome/:id" element={<ComplaintPage />} />
+                <Route path="/reclamacao/:id" element={<ComplaintPage />} />
                 <Route
                     path="/consumer"
                     element={<PrivateRoute allowedType="consumidor"><ConsumerArea /></PrivateRoute>}

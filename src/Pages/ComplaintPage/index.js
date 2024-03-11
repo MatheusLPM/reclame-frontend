@@ -19,7 +19,6 @@ export default function ComplaintPage(props) {
     const [isLoading, setIsLoading] = useState(true);
     const [complaint, setComplaint] = useState([]);
     const [user, setUser] = useState(null);
-    // const [userType, setUserType] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showChildren, setShowChildren] = useState([]);
     const [status, setStatus] = useState('');

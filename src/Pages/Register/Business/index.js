@@ -97,10 +97,7 @@ export default function Empresarial(props) {
 
                 const token = data.authorization.token
 
-                localStorage.setItem('nome', data.user.nome)
                 localStorage.setItem('token', token)
-                localStorage.setItem('email', data.user.email)
-                localStorage.setItem('id', data.user.id)
                 localStorage.setItem('tipo', "empresa")
 
                 console.log(data)

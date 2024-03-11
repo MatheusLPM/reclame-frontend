@@ -14,6 +14,7 @@ export const StyledComplaint = styled.div`
         color: #212121;
         flex-wrap: wrap;
         column-gap: 3vh;
+        
 
         div{
 

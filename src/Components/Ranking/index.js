@@ -17,12 +17,12 @@ export default function Ranking(props) {
     const carousel = useRef();
     const isEmpty = props.bodyInfoList.length === 0;
 
-
     const handleNext = () => {
 
         carousel.current.scrollLeft += (carousel.current.offsetWidth + 16);
 
     }
+
 
     const handlePrev = () => {
 
@@ -49,6 +49,7 @@ export default function Ranking(props) {
                                 nome={info.nome}
                                 nota={info.media}
                                 status={info.status}
+                                perfil={info.perfil}
                             />
                         </Link>
                     ))) : <EmptyBody category={props.category} />}

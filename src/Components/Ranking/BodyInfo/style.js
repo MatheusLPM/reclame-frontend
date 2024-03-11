@@ -36,7 +36,7 @@ export const StyledBodyInfo = styled.article`
         img{
             
             width: 6vh;
-            
+            object-fit: contain;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -46,6 +46,7 @@ export const StyledBodyInfo = styled.article`
             font-weight: 700;
             padding: 1vh;
             aspect-ratio: 1/1;
+            height: 100%;
         }
 
         p{

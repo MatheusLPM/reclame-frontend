@@ -23,7 +23,6 @@ export default function Perfil() {
     const [selectFilter, setSelectFilter] = useState("Todos");
     const [company, setCompany] = useState([]);
     const [companyComplaints, setCompanyComplaints] = useState([]);
-    const [newNameBusinnes, setNewNameBusinnes] = useState("");
     const [history, setHistory] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [perfil, setPerfil] = useState();
@@ -40,7 +39,6 @@ export default function Perfil() {
                     getPerfilComplaints(id)
                 ]);
 
-                setNewNameBusinnes(normalizeString(data.nome).replace(' ', '-'));
                 setCompanyComplaints(complaints);
                 setCompany(data);
                 setHistory(data.historico);
@@ -205,7 +203,7 @@ export default function Perfil() {
 
                 newArray.map((info, index) => (
 
-                    <Link key={index} to={`/reclamacao/${newNameBusinnes}/${info.id}`}>
+                    <Link key={index} to={`/reclamacao/${info.id}`}>
                         <ComplaintBody
                             key={index}
                             title={info.titulo}
@@ -297,7 +295,7 @@ export default function Perfil() {
 
                     <section>
                         <article className="complaints">
-                            {arrayFilter(companyComplaints, newNameBusinnes)}
+                            {arrayFilter(companyComplaints)}
                         </article>
 
                         <button>

@@ -169,3 +169,13 @@ export const showPerfil = async (id) => {
         throw error;
     }
 }
+
+export const updatePassword = async (formData) => {
+    try {
+        const { data } = await api.put('/alterar/empresa/senha', formData);
+        return data;
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}

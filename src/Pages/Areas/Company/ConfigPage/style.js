@@ -1,7 +1,19 @@
 import styled from "styled-components";
 
 export const StyledConfigCompany = styled.div`
-    
+
+    .alter-password{
+
+        display: flex;
+        flex-direction: row;
+        gap: 2vh;
+
+        div{
+            width: 50%;
+        }
+        
+    }
+
 
     form{
         display: flex;
@@ -9,10 +21,12 @@ export const StyledConfigCompany = styled.div`
         gap: 1vh;
         padding: 0.5vh;
 
- 
+        .alter-button{
+            margin-top: 1vh;
+        }
         button{
 
-            width: 10vh;
+            width: 12vh;
             height: 3vh;
             font-size: 1.5vh;
             color: #fff;
@@ -27,7 +41,6 @@ export const StyledConfigCompany = styled.div`
             opacity: 0.9;
             cursor: pointer;
         }
-
 
         .image-upload{
 
@@ -55,6 +68,5 @@ export const StyledConfigCompany = styled.div`
                 }
             }
         }
-
     }
 `;

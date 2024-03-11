@@ -1,9 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { StyledHomeUser } from "./style";
 
 
 export default function HomeUser(props) {
+
+
     const normalizeData = (data) => {
 
         if (!data) return "";
@@ -72,7 +74,7 @@ export default function HomeUser(props) {
                             <div className="info">
                                 <h2>{props.nome}</h2>
                                 <div>
-                                    {props.userType <= "consumidor" ? <p>Cpf: {maskCPF(props.cn)}</p> : <p>CNPJ: {mascaraCNPJ(props.cn)}</p>}
+                                    {props.userType == "consumidor" ? <p>Cpf: {maskCPF(props.cn)}</p> : <p>CNPJ: {mascaraCNPJ(props.cn)}</p>}
                                     <p>Cidade: {props.cidade}</p>
                                     <p>Email: {props.email}</p>
                                     {props.userType == "consumidor" ? <p>Dada de nascimento: {normalizeData(props.data)}</p> : <p>Site: {props.site ? props.site : "Sem site"}</p>}

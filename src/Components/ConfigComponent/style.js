@@ -31,20 +31,27 @@ export const StyledConfig = styled.section`
             box-shadow: 0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12);
             font-size: 1.5vh;
             font-weight: 500;
+            color: #212121;
 
             p{
                 margin-right: 1vh;
                 display: flex;
                 align-items: center;
             }
+
+            svg{
+                color: #212121;
+            }
             
             .summaryIcon{
                 width: 3vh;
                 height: 3vh;
                 aspect-ratio: 1/1;
+                
                 svg{
                     width: 100%;
                     height: 100%;
+
                 }
             }
 
@@ -69,12 +76,12 @@ export const StyledConfig = styled.section`
             input{
 
                 width: 100%;
-                height: 2.5rem;
+                height: 4vh;
                 border-radius: 0.5rem;
                 border: 2px solid #E0E0E0;
                 background-color: transparent;
-                padding: 0.5rem;
-                font-size: 1rem;
+                padding: 8px;
+                font-size: 1.5vh;
             }
 
             input:focus{

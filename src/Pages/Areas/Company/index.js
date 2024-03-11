@@ -9,7 +9,6 @@ import ReactLoading from "react-loading"
 import HomeUser from "../../../Components/UserPage";
 import CompanyComplaints from "./Complaints";
 import ConfigCompany from "./ConfigPage";
-import { api } from "../../../Services/server";
 
 export default function CompanyArea() {
 
