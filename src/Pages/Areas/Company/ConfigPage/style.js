@@ -9,11 +9,34 @@ export const StyledConfigCompany = styled.div`
         gap: 2vh;
 
         div{
-            width: 50%;
+            width: 100%;
         }
         
     }
 
+    .form-consumer{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        .alter-button-consumer{
+            width: 12vh;
+            height: 3vh;
+            font-size: 1.5vh;
+            color: #fff;
+            background-color: #212121;
+            font-weight: 500;
+            border-radius: 0.5vh;
+            border: 0.2vh solid #212121;
+
+        }
+
+        button:hover{
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+    }
 
     form{
         display: flex;
@@ -23,9 +46,6 @@ export const StyledConfigCompany = styled.div`
 
         .alter-button{
             margin-top: 1vh;
-        }
-        button{
-
             width: 12vh;
             height: 3vh;
             font-size: 1.5vh;
@@ -37,6 +57,7 @@ export const StyledConfigCompany = styled.div`
             align-self: flex-end;
         }
 
+
         button:hover{
             opacity: 0.9;
             cursor: pointer;
@@ -46,6 +67,7 @@ export const StyledConfigCompany = styled.div`
 
             display: flex;
             gap: 1vh;
+            align-items: center;
 
             input[type="file"] {
                 display: none;
@@ -67,6 +89,9 @@ export const StyledConfigCompany = styled.div`
                     cursor: pointer;
                 }
             }
+        }
+        .image-upload label:hover{
+            opacity: 0.9;
         }
     }
 `;

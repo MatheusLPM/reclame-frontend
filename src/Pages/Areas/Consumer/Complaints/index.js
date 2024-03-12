@@ -71,7 +71,7 @@ export default function ConsumerComplaints(props) {
         if (newArray.length > 0) {
             return (
                 newArray.map((info, index) => (
-                    <Link key={index} to={`/reclamacao/${normalizeString(info.nome_empresa).replace(' ', '-')}/${info.id}`}>
+                    <Link key={index} to={`/reclamacao/${info.id}`}>
                         <ComplaintUserBody
                             key={index}
                             title={info.titulo}

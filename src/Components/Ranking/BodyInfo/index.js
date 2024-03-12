@@ -68,8 +68,6 @@ export default function BodyInfo(props) {
         }
     }
 
-    console.log(props.perfil);
-
     return (
         <StyledBodyInfo >
 

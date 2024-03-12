@@ -23,7 +23,6 @@ export default function Ranking(props) {
 
     }
 
-
     const handlePrev = () => {
 
         carousel.current.scrollLeft -= (carousel.current.offsetWidth + 16);

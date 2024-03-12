@@ -23,6 +23,7 @@ api.interceptors.response.use(
         if (status === 401) {
 
             localStorage.removeItem('token')
+
             console.log("Token expirou")
 
         }

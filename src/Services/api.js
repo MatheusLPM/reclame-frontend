@@ -179,3 +179,57 @@ export const updatePassword = async (formData) => {
         throw error;
     }
 }
+
+export const updateSite = async (formData) => {
+    try {
+        const { data } = await api.put('/alterar/empresa/site', formData);
+        return data;
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}
+
+export const updatePerfil = async (formData) => {
+    try {
+
+        const { data } = await api.post('perfil/empresa', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return data;
+
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}
+
+export const updatePhoto = async (formData, id) => {
+    try {
+
+        const { data } = await api.post(`foto/consumidor/${id}`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+
+        return data;
+
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}
+
+export const updatePasswordConsumer = async (formData) => {
+    try {
+        const { data } = await api.put('/alterar/consumidor/senha', formData);
+        return data;
+    } catch (error) {
+        console.log("Erro ao buscar os dados:", error)
+        throw error;
+    }
+}

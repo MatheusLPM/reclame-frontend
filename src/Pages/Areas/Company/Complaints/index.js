@@ -71,7 +71,7 @@ export default function CompanyComplaints(props) {
         if (newArray.length > 0) {
             return (
                 newArray.map((info, index) => (
-                    <Link key={index} to={`/reclamacao/${normalizeString(info.nome_empresa)}/${info.id}`}>
+                    <Link key={index} to={`/reclamacao/${info.id}`}>
                         <ComplaintBody
                             key={index}
                             title={info.titulo}
@@ -109,6 +109,8 @@ export default function CompanyComplaints(props) {
                         value2="Aguardando"
                         value3="Respondida"
                         value4="Não Respondida"
+                        value5="Resolvido"
+                        value6="Não Resolvido"
                         onSelectChange={handleSelectChange}
                     />
 

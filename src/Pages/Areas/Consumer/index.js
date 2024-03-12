@@ -5,6 +5,7 @@ import ConsumerComplaints from "./Complaints";
 import ComplaintArea from "../../../Components/ComplantArea";
 import ReactLoading from "react-loading";
 import HomeUser from "../../../Components/UserPage";
+import ConfigConsumer from "./ConfigPage";
 
 export default function ConsumerArea() {
     const [user, setUser] = useState({});
@@ -56,6 +57,7 @@ export default function ConsumerArea() {
                         estado={address.uf}
                         cep={address.cep}
                         userType={type}
+                        foto={user.foto}
                     />
                 );
 
@@ -74,7 +76,7 @@ export default function ConsumerArea() {
                 return <ComplaintArea />;
 
             case "Configurações":
-                return "";
+                return <ConfigConsumer user={user.id} />;
 
             default:
                 return null;

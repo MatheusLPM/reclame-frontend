@@ -21,11 +21,7 @@ const PrivateRoute = ({ children, allowedType }) => {
         fetchData();
     }, []);
 
-    console.log(user);
-
     const isAuthenticated = localStorage.getItem("token");
-
-    const userType = localStorage.getItem("tipo");
 
     if (isAuthenticated) {
         return children;

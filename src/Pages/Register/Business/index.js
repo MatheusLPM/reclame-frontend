@@ -98,13 +98,6 @@ export default function Empresarial(props) {
                 const token = data.authorization.token
 
                 localStorage.setItem('token', token)
-                localStorage.setItem('tipo', "empresa")
-
-                console.log(data)
-
-                if (data.status == 201) {
-                    console.log("Empresa cadastrado com sucesso")
-                }
 
                 setLoading(false)
 

@@ -71,4 +71,8 @@ export const StyledResponseBody = styled.div`
             }
         }
     }
+
+    @media (max-width: 700px) {
+        width: 90vw;
+    }
 `;

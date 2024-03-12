@@ -56,9 +56,6 @@ export default function Perfil() {
     const regular = 7;
     const bom = 8.5;
 
-    console.log(perfil)
-
-
     const selectColor = (nota) => {
 
         if (nota <= ruim) {
@@ -243,7 +240,7 @@ export default function Perfil() {
                     <header>
                         <article>
                             <StyledPerfilInfo>
-                                <img alt="logo" src={perfil ? `http://localhost:8000/storage/${perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
+                                <img alt="logo" src={perfil.foto_perfil ? `http://localhost:8000/storage/${perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
                                 <div>
                                     <h2>{company.nome}</h2>
                                     <p>{company.nome_categoria}</p>
@@ -277,6 +274,8 @@ export default function Perfil() {
                                 value2="Aguardando"
                                 value3="Respondida"
                                 value4="Não Respondida"
+                                value5="Resolvido"
+                                value6="Não Resolvido"
                                 onSelectChange={handleSelectChange}
                             />
 

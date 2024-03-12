@@ -82,13 +82,9 @@ export default function Person(props) {
                 setLoading(true)
                 const { data } = await api.post("register", formData)
 
-                console.log(data);
                 const token = data.authorization.token
 
                 localStorage.setItem('token', token)
-                localStorage.setItem('tipo', "consumidor")
-
-                console.log(token)
 
                 setLoading(false)
                 return Swal.fire({

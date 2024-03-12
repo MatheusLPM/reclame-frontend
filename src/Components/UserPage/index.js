@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { StyledHomeUser } from "./style";
 
-
 export default function HomeUser(props) {
 
 
@@ -67,7 +66,7 @@ export default function HomeUser(props) {
                                 alt="logo"
                                 src={
                                     props.userType === "consumidor"
-                                        ? "/assets/person-fill.svg"
+                                        ? (props.foto ? `http://localhost:8000/storage/${props.foto}` : "/assets/person-fill.svg")
                                         : (props.logo ? `http://localhost:8000/storage/${props.logo}` : "/assets/briefcase-fill-black.svg")
                                 }
                             />

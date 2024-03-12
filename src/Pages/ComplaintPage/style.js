@@ -5,7 +5,7 @@ import styled from "styled-components";
 
 export const StyledComplaintBody = styled.main`
 
-    width: 100%;
+    /* width: 100%; */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -103,7 +103,7 @@ export const StyledComplaintBody = styled.main`
 
         .avaliation{
 
-            height: 5vh;
+            /* height: 5vh; */
             padding: 1vh;
             border-radius: 1vh;
             display: flex;
@@ -224,6 +224,22 @@ export const StyledComplaintBody = styled.main`
         }
 
         
+    }
+
+    @media (max-width: 700px) {
+        section{
+            width: 90vw
+        }
+    }
+
+    @media (max-width: 445px) {
+        section{
+            .avaliation{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2vh;
+            }
+        }
     }
 `;
 

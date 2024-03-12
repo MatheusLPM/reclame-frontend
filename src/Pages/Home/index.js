@@ -14,14 +14,17 @@ import ReactLoading from 'react-loading';
 export default function Home() {
 
     const [category, setCategory] = useState("Todos");
-    const [company, setCompany] = useState([0]);
     const [isLoading, setIsLoading] = useState(true);
+    const [melhores, setMelhores] = useState(['']);
+    const [piores, setPiores] = useState(['']);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const data = await getCompany();
-                setCompany(data);
+
+                setMelhores(data.melhores_empresas);
+                setPiores(data.piores_empresas);
                 setIsLoading(false);
             } catch (error) {
                 console.error('Erro ao buscar categorias:', error);
@@ -30,13 +33,11 @@ export default function Home() {
         fetchData();
     }, []);
 
-    console.log(company)
-
-    const arrayMaior = company.filter((item) => (
+    const arrayMaior = melhores.filter((item) => (
         (item.media >= 6) && (category === "Todos" || item.nome_categoria === category)
     )).sort((a, b) => b.media - a.media);
 
-    const arrayMenor = company.filter((item) => (
+    const arrayMenor = piores.filter((item) => (
         (item.media < 6 || item.media == null) && (category === "Todos" || item.nome_categoria === category)
     )).sort((a, b) => a.media - b.media);
 

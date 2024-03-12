@@ -31,7 +31,6 @@ export default function ComplaintPage(props) {
                 findChildrenComplaint(id),
                 getUserAuth()
             ]);
-            // console.log(complaintData.avaliacao.nota)
             setComplaint(complaintData);
             setShowChildren(childrenData);
             setStatus(complaintData.status_reclamacao.status);
@@ -46,7 +45,6 @@ export default function ComplaintPage(props) {
         }
     }
 
-    // console.log(complaint.categoria_reclamacao)
 
     useEffect(() => {
         setStatus(status);
@@ -160,11 +158,7 @@ export default function ComplaintPage(props) {
 
     const newStatus = () => {
 
-        if (showChildren.length > 0) {
-            return complaint.status = "Respondida";
-        } else {
-            return complaint.status;
-        }
+        return showChildren.length > 0 ? complaint.status = "Respondida" : complaint.status
     }
 
     const handleFallback = () => {

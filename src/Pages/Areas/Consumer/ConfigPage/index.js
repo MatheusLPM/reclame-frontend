@@ -1,24 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
+import { StyledConfigCompany } from "../../Company/ConfigPage/style";
 import ConfigComponent from "../../../../Components/ConfigComponent";
-import { useState } from "react";
-import { StyledConfigCompany } from "./style";
 import Swal from "sweetalert2";
-import DivSectionForm from "../../../../Components/DivSection";
-import validator from "validator";
-import { updatePassword, updatePerfil, updateSite } from "../../../../Services/api";
 import ReactLoading from 'react-loading';
+import { updatePasswordConsumer, updatePhoto } from "../../../../Services/api";
+import validator from "validator";
+import DivSectionForm from "../../../../Components/DivSection";
 import { useNavigate } from "react-router-dom";
 
-export default function ConfigCompany(props) {
 
-    const [descricao, setDescricao] = useState('');
+
+export default function ConfigConsumer(props) {
+
     const [fotoPerfil, setFotoPerfil] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [senha, setSenha] = useState('');
     const [novaSenha, setNovaSenha] = useState('');
-    const [site, setSite] = useState('');
-
-    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -27,31 +25,28 @@ export default function ConfigCompany(props) {
         return erro.replace(/\([^)]*\)/g, '');
     }
 
-    const handleSubmit = async (event) => {
+    const handleAlterPhoto = async (event) => {
         event.preventDefault();
 
-        if (descricao == '' && fotoPerfil == null) {
+        if (fotoPerfil == null) {
             return Swal.fire({
                 position: "center",
                 icon: "error",
-                text: "Campos vazios",
+                text: "Campo vazio",
                 showConfirmButton: false,
             });
         }
 
         const formData = new FormData();
 
-        formData.append('descricao', descricao);
-        if (fotoPerfil != null) {
-            formData.append('fotoPerfil', fotoPerfil);
+        formData.append('fotoPerfil', fotoPerfil);
 
-        }
-        formData.append('id_empresa', props.user);
+        const $id = props.user;
 
         try {
             setLoading(true);
 
-            const { data } = await updatePerfil(formData);
+            const { data } = await updatePhoto(formData, $id);
 
             setLoading(false);
 
@@ -64,6 +59,7 @@ export default function ConfigCompany(props) {
             });
 
         } catch (error) {
+
             const erro = normalizeError(error.response.data.message);
             setLoading(false);
 
@@ -74,6 +70,7 @@ export default function ConfigCompany(props) {
                 showConfirmButton: false,
             });
         }
+
     }
 
     const handleAlterPassword = async (event) => {
@@ -111,13 +108,13 @@ export default function ConfigCompany(props) {
             const formData = {
                 senha,
                 novaSenha,
-                empresa: props.user
+                consumidor: props.user
             }
 
 
             try {
                 setLoading(true);
-                const { data } = await updatePassword(formData);
+                const { data } = await updatePasswordConsumer(formData);
 
                 setLoading(false);
 
@@ -155,62 +152,6 @@ export default function ConfigCompany(props) {
         }
     }
 
-    const handleAlterSite = async (event) => {
-        event.preventDefault();
-
-        if (site == '') {
-            return Swal.fire({
-                position: "center",
-                icon: "error",
-                text: "Campo vazio",
-                showConfirmButton: false,
-            });
-        }
-
-        if (validator.isURL(site, { require_protocol: true })) {
-
-            const formData = {
-                site,
-                empresa: props.user
-            }
-
-            console.log("aqui", formData)
-
-            try {
-                setLoading(true);
-                const { data } = await updateSite(formData);
-                setLoading(false);
-
-                return Swal.fire({
-                    position: "center",
-                    icon: "success",
-                    title: "Dados salvos com sucesso",
-                    showConfirmButton: false,
-                    timer: 1000
-                });
-
-            } catch (error) {
-                const erro = normalizeError(error.response.data.message);
-                setLoading(false);
-
-                return Swal.fire({
-                    position: "center",
-                    icon: "error",
-                    text: erro,
-                    showConfirmButton: false,
-                });
-            }
-        }
-
-        return Swal.fire({
-            position: "center",
-            icon: "error",
-            text: "Não é um site válido",
-            showConfirmButton: false,
-        });
-
-    }
-
     return (
         <StyledConfigCompany hasFile={fotoPerfil != null}>
             <ConfigComponent
@@ -220,25 +161,16 @@ export default function ConfigCompany(props) {
                     </svg>
                 )}
                 summaryIcon={
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#212121" viewBox="0 0 16 16">
-                        <path d="M6.5 1A1.5 1.5 0 0 0 5 2.5V3H1.5A1.5 1.5 0 0 0 0 4.5v1.384l7.614 2.03a1.5 1.5 0 0 0 .772 0L16 5.884V4.5A1.5 1.5 0 0 0 14.5 3H11v-.5A1.5 1.5 0 0 0 9.5 1zm0 1h3a.5.5 0 0 1 .5.5V3H6v-.5a.5.5 0 0 1 .5-.5" />
-                        <path d="M0 12.5A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5V6.85L8.129 8.947a.5.5 0 0 1-.258 0L0 6.85z" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#212121" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                     </svg>
                 }
-                summaryTitle="Alterar Foto e Descrição"
+                summaryTitle="Alterar Foto"
             >
                 {loading && (<div style={{ position: "fixed", height: "100dvh", width: "100dvw", top: "0", left: "0", zIndex: "5", backgroundColor: "#212121", display: "grid", placeItems: "center", opacity: 0.5 }}>
                     <ReactLoading type="spinningBubbles" color="black" />
                 </div>)}
-                <form >
-                    <label htmlFor="descricao">Descrição</label>
-                    <textarea
-                        maxLength="650"
-                        className="desc"
-                        id="descricao"
-                        placeholder="Adicione uma descrição..."
-                        onChange={(event) => setDescricao(event.target.value)}
-                    />
+                <form className="form-consumer">
                     <div className="image-upload">
                         <label>Adicionar Logo</label>
                         <div>
@@ -255,7 +187,7 @@ export default function ConfigCompany(props) {
                             onChange={(event) => setFotoPerfil(event.target.files[0])}
                         />
                     </div>
-                    <button className="alter-button" onSubmit={handleSubmit} onClick={handleSubmit}>Alterar</button>
+                    <button className="alter-button-consumer" onSubmit={handleAlterPhoto} onClick={handleAlterPhoto}>Alterar</button>
                 </form>
             </ConfigComponent>
             <ConfigComponent
@@ -298,39 +230,6 @@ export default function ConfigCompany(props) {
                     </div>
                     <button className="alter-button" onSubmit={handleAlterPassword} onClick={handleAlterPassword}>Alterar</button>
 
-                </form>
-            </ConfigComponent>
-            <ConfigComponent
-                expandIcon={(
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-                        <path d="M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z" />
-                    </svg>
-                )}
-                summaryIcon={
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#212121" viewBox="0 0 16 16">
-                        <path d="M6.354 5.5H4a3 3 0 0 0 0 6h3a3 3 0 0 0 2.83-4H9q-.13 0-.25.031A2 2 0 0 1 7 10.5H4a2 2 0 1 1 0-4h1.535c.218-.376.495-.714.82-1z" />
-                        <path d="M9 5.5a3 3 0 0 0-2.83 4h1.098A2 2 0 0 1 9 6.5h3a2 2 0 1 1 0 4h-1.535a4 4 0 0 1-.82 1H12a3 3 0 1 0 0-6z" />
-                    </svg>
-                }
-                summaryTitle="Alterar Site"
-            >
-                {loading && (<div style={{ position: "fixed", height: "100dvh", width: "100dvw", top: "0", left: "0", zIndex: "5", backgroundColor: "#212121", display: "grid", placeItems: "center", opacity: 0.5 }}>
-                    <ReactLoading type="spinningBubbles" color="black" />
-                </div>)}
-                <form>
-                    <div className="alter-password">
-
-                        <DivSectionForm
-                            className="input-password"
-                            title="Site"
-                            placeholder="Novo Site..."
-                            type="url"
-                            value={site}
-                            onChange={(event) => setSite(event.target.value)}
-                            id="novoSite"
-                        />
-                    </div>
-                    <button className="alter-button" onSubmit={handleAlterSite} onClick={handleAlterSite}>Alterar</button>
                 </form>
             </ConfigComponent>
         </StyledConfigCompany>

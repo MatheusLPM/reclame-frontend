@@ -47,6 +47,8 @@ export default function CompanyArea() {
         localStorage.setItem("menu", menu);
     }, [menu]);
 
+    console.log(user)
+
     const componentRender = (menu) => {
         switch (menu) {
             case "Inicio":
@@ -62,7 +64,7 @@ export default function CompanyArea() {
                         site={user.site}
                         desc={perfil ? perfil.descricao : false}
                         logo={perfil ? perfil.foto_perfil : false}
-                        userType={localStorage.getItem('tipo')}
+                        userType={user.tipo}
                     />);
 
             case "Reclamações":
@@ -72,7 +74,7 @@ export default function CompanyArea() {
                     /> : <h2 className="empty">Sem Reclamações</h2>);
 
             case "Configurações":
-                return <ConfigCompany empresa={user.id} />;
+                return <ConfigCompany user={user.id} />;
 
             default:
                 return "";

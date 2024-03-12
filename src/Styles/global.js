@@ -7,6 +7,8 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         box-sizing: border-box;
         font-family: 'inter', sans-serif;
+        scrollbar-width: none;
+        
     }
     
     body{
@@ -15,7 +17,6 @@ const GlobalStyle = createGlobalStyle`
         flex-direction: column;
         height: 100vh;
         color: #212121;
-
     };
 `;
 

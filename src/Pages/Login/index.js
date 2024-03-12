@@ -47,13 +47,7 @@ export default function Login() {
 
                 const token = data.authorization.token;
 
-                // localStorage.setItem('nome', data.user.nome)
                 localStorage.setItem('token', token)
-                localStorage.setItem('tipo', data.user_type)
-                // localStorage.setItem('email', data.user.email)
-                // localStorage.setItem('id', data.user.id)
-
-                console.log(data);
 
                 setLoading(false);
 

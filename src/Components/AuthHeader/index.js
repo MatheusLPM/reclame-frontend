@@ -19,8 +19,6 @@ export default function AuthHeader() {
             const { data } = await api.post("auth/logout");
 
             localStorage.removeItem('token');
-            localStorage.removeItem('tipo');
-            localStorage.removeItem('nome');
 
             await navigate('/');
 
@@ -45,9 +43,6 @@ export default function AuthHeader() {
         };
         fetchData();
     }, []);
-
-
-    console.log(userType)
 
     return (
 
