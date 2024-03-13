@@ -26,14 +26,12 @@ export default function CompanyArea() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [data, dataComplaints] = await Promise.all([
+                const [data] = await Promise.all([
                     getShowCompany(),
-                    getCompanyComplaints(),
                 ]);
 
                 setUser(data.user);
                 setAdress(data.address);
-                setUserComplaints(dataComplaints);
                 setPerfil(data.perfil);
                 setIsLoading(false);
             } catch (error) {
@@ -46,8 +44,6 @@ export default function CompanyArea() {
     useEffect(() => {
         localStorage.setItem("menu", menu);
     }, [menu]);
-
-    console.log(user)
 
     const componentRender = (menu) => {
         switch (menu) {
@@ -68,10 +64,10 @@ export default function CompanyArea() {
                     />);
 
             case "Reclamações":
-                return (userComplaints.length > 0 ?
+                return (
                     <CompanyComplaints
-                        consumerComplaints={userComplaints}
-                    /> : <h2 className="empty">Sem Reclamações</h2>);
+                        id={user.id}
+                    />);
 
             case "Configurações":
                 return <ConfigCompany user={user.id} />;

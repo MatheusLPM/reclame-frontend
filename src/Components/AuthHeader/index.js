@@ -9,7 +9,6 @@ export default function AuthHeader() {
 
     const [user, setUser] = useState([""]);
     const [userName, setUserName] = useState(null);
-    const [userType, setUserType] = useState();
     const navigate = useNavigate();
 
     const handleLogOut = async (event) => {
@@ -36,7 +35,7 @@ export default function AuthHeader() {
 
                 setUser(data);
                 setUserName(data.user.nome);
-                setUserType(data.userType);
+
             } catch (error) {
                 console.error('Erro', error)
             }

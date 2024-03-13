@@ -94,9 +94,9 @@ export const getStatusComplaint = async () => {
     }
 }
 
-export const getPerfilComplaints = async (id) => {
+export const getPerfilComplaints = async (id, currentPage, selectFilter, changeComplaint) => {
     try {
-        const { data } = await api.get(`empresa/reclamacao/${id}`)
+        const { data } = await api.get(`empresa/reclamacao/${id}/${currentPage}/${selectFilter}?search=${changeComplaint}`);
         return data;
     } catch (error) {
         console.log("Erro ao buscar os dados:", error)
@@ -104,6 +104,15 @@ export const getPerfilComplaints = async (id) => {
     }
 }
 
+export const getCompanyComplaints = async (currentPage, selectFilter, changeComplaint) => {
+    try {
+        const { data } = await api.get(`user/empresa/reclamacao/${currentPage}/${selectFilter}?search=${changeComplaint}`);
+        return data;
+    } catch (error) {
+        console.log("Erro aso bucar os dados", error)
+        throw error;
+    }
+}
 
 export const showCompanyComplaints = async (id) => {
     try {
@@ -124,17 +133,6 @@ export const getConsumerComplaints = async () => {
         throw error;
     }
 }
-
-export const getCompanyComplaints = async () => {
-    try {
-        const { data } = await api.get('empresa/reclamacao');
-        return data;
-    } catch (error) {
-        console.log("Erro aso bucar os dados", error)
-        throw error;
-    }
-}
-
 
 export const getUserAuth = async () => {
 

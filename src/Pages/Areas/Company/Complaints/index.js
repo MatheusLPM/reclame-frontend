@@ -1,106 +1,78 @@
 import React, { useEffect, useState } from "react";
+
 import ComplaintBody from "../../../../Components/Complaint/ComplaintBody";
 import DropDown from "../../../../Components/Dropdown";
 import { Link } from "react-router-dom";
 import { newData } from "../../../../Services/functionValidations";
 import EmptyComplaint from "../../../../Components/EmptyComplaint";
 import { StyledDiv } from "./style";
+import { getCompanyComplaints } from "../../../../Services/api";
+import ReactLoading from 'react-loading';
+import { debounce } from "lodash";
+
 
 export default function CompanyComplaints(props) {
 
     const [changeComplaint, setChangeComplaint] = useState("");
-    const [autoCompleteResults, setAutoCompleteResults] = useState({});
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const [userComplaints, setUserComplaints] = useState(['']);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isArticleLoading, setIsArticleLoading] = useState(true);
     const [selectFilter, setSelectFilter] = useState("Todos");
+    const [totalPages, setTotalPages] = useState(0);
 
-    const normalizeString = (str) => {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\sÀ-ú]/gi, "").toLowerCase();
-    };
-    const searchNormalize = (searchValue) => {
-        return props.consumerComplaints.filter((valor) => {
-            const lowerCaseValue = normalizeString(valor.titulo).toLowerCase();
-            const lowerCaseEmpresa = normalizeString(valor.nome_empresa).toLowerCase();
-            const lowerCaseSearch = normalizeString(searchValue).toLowerCase();
 
-            return lowerCaseValue.includes(lowerCaseSearch) || lowerCaseEmpresa.includes(lowerCaseSearch);
-        });
+    const fetchData = async () => {
+        setIsArticleLoading(true);
+
+        try {
+            const [data] = await Promise.all([
+                getCompanyComplaints(currentPage, selectFilter, changeComplaint),
+            ]);
+
+            setUserComplaints(data);
+            setTotalPages(data.last_page);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Erro', error);
+        } finally {
+            setIsArticleLoading(false);
+        }
     };
+
+    useEffect(() => {
+
+        const delay = debounce(fetchData, 300);
+
+        delay();
+
+        return delay.cancel;
+
+    }, [currentPage, selectFilter, changeComplaint]);
+
+    const nextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
+    };
+
+    const prevPage = () => {
+        setCurrentPage(prevPage => prevPage - 1);
+    };
+
     const handleInputChange = (e) => {
-
-        const searchString = e.target.value;
-        setChangeComplaint(searchString);
-
-        if (searchString.length) {
-
-            const autoCompleteValores = searchNormalize(searchString);
-
-            setAutoCompleteResults(autoCompleteValores);
-
-        } else {
-            setAutoCompleteResults([]);
-        }
+        setChangeComplaint(e.target.value);
     };
-    const handleSelectChange = (e) => {
-        setSelectFilter(e)
-    }
-    const convertComplaints = (consumerComplaints) => {
 
-        let array = []
-
-        if ((selectFilter === "Todos" || !selectFilter)) {
-            return consumerComplaints.filter((info) => info.id_pai == null);
-        } else if (selectFilter) {
-
-            array = consumerComplaints.filter((info) => (info.status === selectFilter) && (info.id_pai == null))
-            return array;
-
-        } else {
-
-            return console.log("vazio");
-        }
-    };
-    const arrayFilter = (consumerComplaints) => {
-
-        const auxArray = convertComplaints(consumerComplaints);
-        const newArray = auxArray.filter((info) => (
-            !changeComplaint ||
-            normalizeString(info.titulo).toLowerCase().includes(changeComplaint.toLowerCase()) ||
-            normalizeString(info.nome_empresa).toLowerCase().includes(changeComplaint.toLowerCase())
-        )).sort((a, b) => a.status.localeCompare(b.status));
-
-        if (newArray.length > 0) {
-            return (
-                newArray.map((info, index) => (
-                    <Link key={index} to={`/reclamacao/${info.id}`}>
-                        <ComplaintBody
-                            key={index}
-                            title={info.titulo}
-                            descricao={info.descricao}
-                            status={info.status}
-                            data={newData(info.created_at)}
-                        />
-                    </Link>
-                ))
-            );
-        } else {
-            if (selectFilter === "Todos" || selectFilter === "Aguardando") {
-                return (
-                    <EmptyComplaint
-                        status=""
-                    />
-                );
-            } else {
-                return (
-                    <EmptyComplaint
-                        status={selectFilter}
-                    />
-                );
-            }
-        }
+    const handleSelectChange = (value) => {
+        setSelectFilter(value);
     };
 
     return (
         <StyledDiv>
+            {isLoading && (
+                <div className="loading">
+                    <ReactLoading type="spinningBubbles" color="#E7E7E7" />
+                </div>)
+            }
             <section>
                 <h2>Minhas Reclamações</h2>
                 <div>
@@ -127,9 +99,37 @@ export default function CompanyComplaints(props) {
             </section>
             <section>
                 <article>
-                    {arrayFilter(props.consumerComplaints)}
+                    {isArticleLoading ? (
+                        <div style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            width: "100%",
+                            scale: "0.6"
+                        }}>
+                            <ReactLoading type="balls" color="#E7E7E7" />
+                        </div>) : (
+                        userComplaints.data.length > 0 ? (
+                            userComplaints.data.map((info, index) => (
+                                <Link key={index} to={`/reclamacao/${info.id}`}>
+                                    <ComplaintBody
+                                        key={index}
+                                        title={info.titulo}
+                                        descricao={info.descricao}
+                                        status={info.status}
+                                        data={newData(info.created_at)}
+                                    />
+                                </Link>
+                            ))
+                        ) : (<EmptyComplaint status={selectFilter} />)
+                    )
+                    }
                 </article>
             </section>
+            <div className="pagination">
+                <button onClick={prevPage} disabled={currentPage == 1}>Página Anterior</button>
+                <button onClick={nextPage} disabled={currentPage == totalPages}>Próxima Página</button>
+            </div>
 
         </StyledDiv>
     )

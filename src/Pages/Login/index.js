@@ -51,8 +51,7 @@ export default function Login() {
 
                 setLoading(false);
 
-                return localStorage.getItem("tipo") == "consumidor" ? navigate('/consumer') : navigate('/company');
-
+                return data.user_type == "consumidor" ? navigate('/consumer') : navigate('/company');
             } catch (error) {
 
                 const erro = normalizeError(error.response.data.message)

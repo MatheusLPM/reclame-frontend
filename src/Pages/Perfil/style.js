@@ -141,7 +141,7 @@ export const BodyPerfil = styled.main`
         border-radius: 1vh;
         padding: 1.5vh;
         overflow: hidden;
-        max-height: 36rem;
+        max-height: ${(props) => (props.isActive ? "100vh" : "36rem")};
         gap: 1rem;
         position: relative;
         align-items: center;
@@ -159,9 +159,9 @@ export const BodyPerfil = styled.main`
             text-decoration: none;
         }
 
-        button{
+        .plus{
 
-            display: flex;
+            display: ${(props) => (props.isActive ? 'none' : 'flex')};
             justify-content: center;
             align-items: center;
             gap: 0.5rem;
@@ -174,6 +174,7 @@ export const BodyPerfil = styled.main`
             cursor: pointer;
             height: 10%;
         }
+
     }
 
     @media (max-width: 1500px) {

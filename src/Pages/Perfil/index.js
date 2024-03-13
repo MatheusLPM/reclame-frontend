@@ -11,6 +11,8 @@ import { getPerfilComplaints, showCompany } from "../../Services/api";
 import { newData } from "../../Services/functionValidations";
 
 import ReactLoading from 'react-loading';
+import { debounce } from "lodash";
+import PaginationButton from "../../Components/PaginationButton";
 
 export default function Perfil() {
 
@@ -18,43 +20,58 @@ export default function Perfil() {
 
     const navigate = useNavigate();
 
-    const [changeComplaint, setChangeComplaint] = useState("");
-    const [autoCompleteResults, setAutoCompleteResults] = useState({});
+    const [changeComplaint, setChangeComplaint] = useState('');
     const [selectFilter, setSelectFilter] = useState("Todos");
     const [company, setCompany] = useState([]);
     const [companyComplaints, setCompanyComplaints] = useState([]);
     const [history, setHistory] = useState();
     const [isLoading, setIsLoading] = useState(true);
     const [perfil, setPerfil] = useState();
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [isArticleLoading, setIsArticleLoading] = useState(true);
+    const [active, setActive] = useState(false);
 
-    const normalizeString = (str) => {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^\w\sÀ-ú]/gi, "").toLowerCase();
+
+
+    const fetchData = async () => {
+        setIsArticleLoading(true);
+        try {
+            const [data, complaints] = await Promise.all([
+                showCompany(id),
+                getPerfilComplaints(id, currentPage, selectFilter, changeComplaint)
+            ]);
+
+            setCompanyComplaints(complaints);
+            setTotalPages(complaints.last_page)
+            setCompany(data);
+            setHistory(data.historico);
+            setPerfil(data.perfil);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Erro', error);
+            return navigate('/');
+        } finally {
+            setIsArticleLoading(false);
+        }
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [data, complaints] = await Promise.all([
-                    showCompany(id),
-                    getPerfilComplaints(id)
-                ]);
 
-                setCompanyComplaints(complaints);
-                setCompany(data);
-                setHistory(data.historico);
-                setPerfil(data.perfil);
-                setIsLoading(false);
-            } catch (error) {
-                console.error('Erro', error);
-                return navigate('/');
-            }
-        };
-        fetchData();
-    }, [id]);
+        const delay = debounce(fetchData, 300);
+
+        delay();
+
+        return delay.cancel;
+
+    }, [id, currentPage, selectFilter, changeComplaint]);
 
     const ruim = 4;
     const regular = 7;
     const bom = 8.5;
+
+    console.log("pai", active)
+
 
     const selectColor = (nota) => {
 
@@ -140,96 +157,25 @@ export default function Perfil() {
             return "transparent"
         }
     };
-    const searchNormalize = (searchValue) => {
-        return companyComplaints.filter((valor) => {
-            const lowerCaseSearch = normalizeString(searchValue).toLowerCase();
-            const normalizedTitle = normalizeString(valor.titulo).toLowerCase();
-            const normalizedDescription = normalizeString(valor.descricao).toLowerCase();
 
-            return normalizedTitle.includes(lowerCaseSearch) || normalizedDescription.includes(lowerCaseSearch);
-        });
+    const nextPage = () => {
+        setCurrentPage(prevPage => prevPage + 1);
     };
+
+    const prevPage = () => {
+        setCurrentPage(prevPage => prevPage - 1);
+    };
+
     const handleInputChange = (e) => {
-
-        const searchString = e.target.value;
-        setChangeComplaint(searchString);
-
-        console.log(searchString)
-        console.log(autoCompleteResults)
-
-        if (searchString.length) {
-
-            const autoCompleteValores = searchNormalize(searchString);
-
-            setAutoCompleteResults(autoCompleteValores);
-
-        } else {
-            setAutoCompleteResults([]);
-        }
+        setChangeComplaint(e.target.value);
     };
-    const handleSelectChange = (e) => {
-        setSelectFilter(e)
-    }
-    const convertComplaints = (companyComplaints) => {
 
-        let array = []
-
-        if ((selectFilter === "Todos" || !selectFilter)) {
-            return companyComplaints.filter((info) => info.id_pai == null);
-        } else if (selectFilter) {
-
-            array = companyComplaints.filter((info) => (info.status === selectFilter) && (info.id_pai == null))
-            return array;
-
-        } else {
-
-            return console.log("vazio");
-        }
-    };
-    const arrayFilter = (companyComplaints) => {
-
-        const auxArray = convertComplaints(companyComplaints)
-        const newArray = auxArray.filter((info) => (
-            !changeComplaint ||
-            normalizeString(info.titulo).toLowerCase().includes(changeComplaint) ||
-            normalizeString(info.descricao).toLowerCase().includes(changeComplaint)
-        )).sort((a, b) => a.status.localeCompare(b.status));
-
-        if (newArray.length > 0) {
-            return (
-
-                newArray.map((info, index) => (
-
-                    <Link key={index} to={`/reclamacao/${info.id}`}>
-                        <ComplaintBody
-                            key={index}
-                            title={info.titulo}
-                            descricao={info.descricao}
-                            status={info.status}
-                            data={newData(info.created_at)}
-                        />
-                    </Link>
-                ))
-            );
-        } else {
-            if (selectFilter === "Todos" || selectFilter === "Aguardando") {
-                return (
-                    <EmptyComplaint
-                        status=""
-                    />
-                );
-            } else {
-                return (
-                    <EmptyComplaint
-                        status={selectFilter}
-                    />
-                );
-            }
-        }
+    const handleSelectChange = (value) => {
+        setSelectFilter(value);
     };
 
     return (
-        <BodyPerfil>
+        <BodyPerfil isActive={active}>
             {isLoading ? (
                 <div className="loading">
                     <ReactLoading type="spinningBubbles" color="#E7E7E7" />
@@ -279,7 +225,8 @@ export default function Perfil() {
                                 onSelectChange={handleSelectChange}
                             />
 
-                            <input placeholder="Pesquisar reclamação"
+                            <input
+                                placeholder="Pesquisar reclamação"
                                 value={changeComplaint}
                                 onChange={handleInputChange}
 
@@ -294,16 +241,48 @@ export default function Perfil() {
 
                     <section>
                         <article className="complaints">
-                            {arrayFilter(companyComplaints)}
+                            {isArticleLoading ? (
+                                <div style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    scale: "0.6"
+                                }}>
+                                    <ReactLoading type="balls" color="#E7E7E7" />
+                                </div>
+                            ) : (
+                                companyComplaints.data.length > 0 ? (
+                                    companyComplaints.data.map((info, index) => (
+                                        <Link key={index} to={`/reclamacao/${info.id}`}>
+                                            <ComplaintBody
+                                                key={index}
+                                                title={info.titulo}
+                                                descricao={info.descricao}
+                                                status={info.status}
+                                                data={newData(info.created_at)}
+                                            />
+                                        </Link>
+                                    ))
+                                ) : (<EmptyComplaint status={selectFilter} />)
+                            )}
                         </article>
-
-                        <button>
+                        <button className="plus" onClick={(e) => setActive(true)}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                             </svg> Ver Todas
                         </button>
+                        <PaginationButton
+                            prevPage={prevPage}
+                            nextPage={nextPage}
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            active={active}
+                        />
                     </section>
+
                 </section>}
+
         </BodyPerfil>
     );
 };

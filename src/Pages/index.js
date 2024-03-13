@@ -13,6 +13,7 @@ import { Content } from "./style.js";
 import Complain from "./Areas/Consumer/Complaints/Complain/index.js";
 
 export default function Principal() {
+
     return (
 
         <Content>
