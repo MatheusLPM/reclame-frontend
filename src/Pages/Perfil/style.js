@@ -44,7 +44,7 @@ export const BodyPerfil = styled.main`
             position: relative;
     
             input{
-                width: 30dvh;
+                width: 15rem;
                 height: 2.5rem;
                 padding-right: 3rem;
                 border: 2px solid #E7E7E7;
@@ -52,6 +52,7 @@ export const BodyPerfil = styled.main`
                 padding-left: 10px;
                 background-color: transparent;
                 margin-left: 1rem;
+
                 
             }
 
@@ -82,7 +83,7 @@ export const BodyPerfil = styled.main`
         padding: 1rem;
         gap: 1rem;
         background-color: #FAFAFA;
-        border-radius: 1rem;
+        border-radius: 0.5rem;
         margin-top: 1rem;
 
         article:nth-child(1){
@@ -138,21 +139,18 @@ export const BodyPerfil = styled.main`
         width: 100%;
         background-color: #FAFAFA;
         margin: 1vh 0;
-        border-radius: 1vh;
+        border-radius: 0.5rem;
         padding: 1.5vh;
         overflow: hidden;
-        max-height: ${(props) => (props.isActive ? "100vh" : "36rem")};
-        gap: 1rem;
+        max-height: ${(props) => (props.isActive ? "100%" : "37.5rem")};
+        gap: 1vh;
         position: relative;
         align-items: center;
 
-        
+
         .complaints{
-            overflow-x: hidden;
-            scroll-behavior: smooth;
-            scrollbar-width: none;
             width: 100%;
-            height: 90%;
+            height: 100%;
         }
 
         a{
@@ -161,18 +159,23 @@ export const BodyPerfil = styled.main`
 
         .plus{
 
-            display: ${(props) => (props.isActive ? 'none' : 'flex')};
+            display: ${(props) => (props.isMore > 4) ? (props) => (props.isActive ? 'none' : 'flex') : 'none'};
             justify-content: center;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
+            gap: 0.5vh;
+            padding: 0.5vh;
             font-weight: 500;
-            font-size: 1rem;
+            font-size: 1.5vh;
             color: #9E9E9E;
             background-color: transparent;
             border: none;
             cursor: pointer;
             height: 10%;
+
+        }
+
+        .pagination{
+            display: ${(props) => (props.isActive ? "flex" : "none")};
         }
 
     }
@@ -224,6 +227,8 @@ export const StyledPerfilInfo = styled.div`
 
     img{
         object-fit: contain;
+        width: 100%;
+        height: 100%;
     }
 
     div{
@@ -232,6 +237,7 @@ export const StyledPerfilInfo = styled.div`
         flex-direction: column;
         gap: 0.5rem;
         font-size: 1rem;
+
 
         h2{
             font-weight: 700;

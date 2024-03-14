@@ -5,7 +5,7 @@ import { api } from "../../Services/server";
 import { StyledAuthBody } from "./style";
 import { getUserAuth } from "../../Services/api";
 
-export default function AuthHeader() {
+export default function AuthHeader(props) {
 
     const [user, setUser] = useState([""]);
     const [userName, setUserName] = useState(null);
@@ -52,8 +52,8 @@ export default function AuthHeader() {
                 </svg>
             </div>
             <div>
-                <p>{user.userType ? user.userType : ""}</p>
-                <Link to={(user.userType == "consumidor") ? "/consumer" : "/company"}>{userName}</Link>
+                <p>{props.tipo ? props.tipo : ""}</p>
+                <Link to={(props.tipo == "consumidor") ? "/consumer" : "/company"}>{props.nome}</Link>
             </div>
             <button id="button-logout" onClick={handleLogOut}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">

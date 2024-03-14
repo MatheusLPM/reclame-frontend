@@ -6,12 +6,15 @@ import { Link } from "react-router-dom";
 import { newData } from "../../../../Services/functionValidations";
 import EmptyComplaint from "../../../../Components/EmptyComplaint";
 import { StyledDiv } from "./style";
-import { getCompanyComplaints } from "../../../../Services/api";
+import { getUserComplaints } from "../../../../Services/api";
 import ReactLoading from 'react-loading';
 import { debounce } from "lodash";
 
+import Pagination from '@mui/material/Pagination';
+import { Stack } from "@mui/material";
 
-export default function CompanyComplaints(props) {
+
+export default function UserComplaints(props) {
 
     const [changeComplaint, setChangeComplaint] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -20,18 +23,19 @@ export default function CompanyComplaints(props) {
     const [isArticleLoading, setIsArticleLoading] = useState(true);
     const [selectFilter, setSelectFilter] = useState("Todos");
     const [totalPages, setTotalPages] = useState(0);
-
+    const [to, setTo] = useState(0);
 
     const fetchData = async () => {
         setIsArticleLoading(true);
 
         try {
             const [data] = await Promise.all([
-                getCompanyComplaints(currentPage, selectFilter, changeComplaint),
+                getUserComplaints(currentPage, selectFilter, changeComplaint),
             ]);
 
             setUserComplaints(data);
             setTotalPages(data.last_page);
+            setTo(data.to);
             setIsLoading(false);
         } catch (error) {
             console.error('Erro', error);
@@ -39,6 +43,8 @@ export default function CompanyComplaints(props) {
             setIsArticleLoading(false);
         }
     };
+
+    console.log(to)
 
     useEffect(() => {
 
@@ -50,15 +56,8 @@ export default function CompanyComplaints(props) {
 
     }, [currentPage, selectFilter, changeComplaint]);
 
-    const nextPage = () => {
-        setCurrentPage(prevPage => prevPage + 1);
-    };
-
-    const prevPage = () => {
-        setCurrentPage(prevPage => prevPage - 1);
-    };
-
     const handleInputChange = (e) => {
+        setCurrentPage(1);
         setChangeComplaint(e.target.value);
     };
 
@@ -67,7 +66,7 @@ export default function CompanyComplaints(props) {
     };
 
     return (
-        <StyledDiv>
+        <StyledDiv isFive={totalPages}>
             {isLoading && (
                 <div className="loading">
                     <ReactLoading type="spinningBubbles" color="#E7E7E7" />
@@ -118,6 +117,8 @@ export default function CompanyComplaints(props) {
                                         descricao={info.descricao}
                                         status={info.status}
                                         data={newData(info.created_at)}
+                                        nome_empresa={info.nome_empresa}
+                                        tipo={props.tipo}
                                     />
                                 </Link>
                             ))
@@ -125,11 +126,18 @@ export default function CompanyComplaints(props) {
                     )
                     }
                 </article>
+                <div className="pagination">
+                    <Stack spacing={2}>
+                        <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            shape="rounded"
+                            onChange={(event, page) => setCurrentPage(page)}
+                        />
+                    </Stack>
+                </div>
             </section>
-            <div className="pagination">
-                <button onClick={prevPage} disabled={currentPage == 1}>Página Anterior</button>
-                <button onClick={nextPage} disabled={currentPage == totalPages}>Próxima Página</button>
-            </div>
+
 
         </StyledDiv>
     )

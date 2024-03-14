@@ -72,7 +72,7 @@ export default function BodyInfo(props) {
         <StyledBodyInfo >
 
             <div>
-                <img alt="logo" src={props.perfil.foto_perfil ? `http://localhost:8000/storage/${props.perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
+                <img alt="logo" src={props.perfil ? props.perfil.foto_perfil ? `http://192.168.0.146:8000/storage/${props.perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg" : "/assets/briefcase-fill-black.svg"} ></img>
                 <p>{props.nota != "" ? props.nota : 0}</p>
             </div>
             <div>

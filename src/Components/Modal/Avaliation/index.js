@@ -5,11 +5,6 @@ import { api } from "../../../Services/server";
 
 import ReactLoading from 'react-loading';
 
-
-
-
-
-
 export default function Avaliation(props) {
 
     const [selectAvaliation, setSelectAvaliation] = useState(0);
@@ -20,15 +15,13 @@ export default function Avaliation(props) {
     }
 
     const sendAvaliation = async (reclamacao) => {
-
-        if (selectAvaliation) {
+        if (selectAvaliation || selectAvaliation == 0) {
 
             const formData = {
                 nota: selectAvaliation,
                 id_reclamacao: reclamacao,
                 status: props.status
             }
-            console.log("aqui:", formData)
             try {
 
                 setLoading(true);

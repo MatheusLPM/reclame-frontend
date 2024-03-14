@@ -47,7 +47,8 @@ export default function Login() {
 
                 const token = data.authorization.token;
 
-                localStorage.setItem('token', token)
+                localStorage.setItem('token', token);
+                localStorage.removeItem('menu');
 
                 setLoading(false);
 

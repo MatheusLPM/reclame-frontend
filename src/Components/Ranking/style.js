@@ -27,7 +27,6 @@ export const StyledInfoArticle = styled.article`
     align-items: ${(props) => (props.isEmpty ? 'center' : 'none')};
 
     a{
-        width: 15.98rem;
         text-decoration: none;
     }
 

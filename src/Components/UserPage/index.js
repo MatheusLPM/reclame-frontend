@@ -66,8 +66,8 @@ export default function HomeUser(props) {
                                 alt="logo"
                                 src={
                                     props.userType === "consumidor"
-                                        ? (props.foto ? `http://localhost:8000/storage/${props.foto}` : "/assets/person-fill.svg")
-                                        : (props.logo ? `http://localhost:8000/storage/${props.logo}` : "/assets/briefcase-fill-black.svg")
+                                        ? (props.foto ? `http://192.168.0.146:8000/storage/${props.foto}` : "/assets/person-fill.svg")
+                                        : (props.logo ? `http://192.168.0.146:8000/storage/${props.logo}` : "/assets/briefcase-fill-black.svg")
                                 }
                             />
                             <div className="info">

@@ -104,9 +104,9 @@ export const getPerfilComplaints = async (id, currentPage, selectFilter, changeC
     }
 }
 
-export const getCompanyComplaints = async (currentPage, selectFilter, changeComplaint) => {
+export const getUserComplaints = async (currentPage, selectFilter, changeComplaint) => {
     try {
-        const { data } = await api.get(`user/empresa/reclamacao/${currentPage}/${selectFilter}?search=${changeComplaint}`);
+        const { data } = await api.get(`user/reclamacao/${currentPage}/${selectFilter}?search=${changeComplaint}`);
         return data;
     } catch (error) {
         console.log("Erro aso bucar os dados", error)

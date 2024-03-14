@@ -10,15 +10,14 @@ import SearchBar from "../SearchBar";
 
 
 export default function Header(props) {
-
     return (
         <BodyHeader>
             <Link to="/">
                 <Logo />
             </Link>
-            <SearchBar prefix="/perfil/empresa" />
+            <SearchBar searchBarRef={props.searchBarRef} prefix="/perfil/empresa" />
             {localStorage.getItem("token") ? (
-                <AuthHeader />
+                <AuthHeader tipo={props.tipo} nome={props.nome} />
             ) : (
                 <Link to="/enter">
                     <button>Entrar/Criar Conta</button>

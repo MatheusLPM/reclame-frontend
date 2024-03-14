@@ -47,7 +47,7 @@ export default function SearchBar(props) {
 
     return (
         <StyledSearchBar>
-            <input
+            <input ref={props.searchBarRef}
                 type="text"
                 placeholder="Pesquise por nome da empresa"
                 value={inputValue}

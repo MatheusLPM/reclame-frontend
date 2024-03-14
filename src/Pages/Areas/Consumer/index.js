@@ -1,36 +1,30 @@
 import React, { useState, useEffect } from "react";
-import { getConsumer, getConsumerComplaints, getUserAuth } from "../../../Services/api";
+import { getConsumer } from "../../../Services/api";
 import { StyledButton, StyledConsumerArea } from "./style";
-import ConsumerComplaints from "./Complaints";
 import ComplaintArea from "../../../Components/ComplantArea";
 import ReactLoading from "react-loading";
 import HomeUser from "../../../Components/UserPage";
 import ConfigConsumer from "./ConfigPage";
+import UserComplaints from "../Company/Complaints";
 
 export default function ConsumerArea() {
     const [user, setUser] = useState({});
     const [address, setAddress] = useState({});
-    const [userComplaints, setUserComplaints] = useState({});
     const [isLoading, setIsLoading] = useState(true);
     const [menu, setMenu] = useState(() => {
         return localStorage.getItem("menu") || "Inicio";
     });
-    const [type, setType] = useState();
     const options = ["Inicio", "Reclamações", "Configurações", "Fazer reclamação"];
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [data, dataComplaints, type] = await Promise.all([
+                const [data] = await Promise.all([
                     getConsumer(),
-                    getConsumerComplaints(),
-                    getUserAuth(),
                 ]);
 
                 setUser(data.user);
-                setType(type.userType);
                 setAddress(data.address);
-                setUserComplaints(dataComplaints);
                 setIsLoading(false);
 
             } catch (error) {
@@ -56,21 +50,17 @@ export default function ConsumerArea() {
                         data={user.data_nascimento}
                         estado={address.uf}
                         cep={address.cep}
-                        userType={type}
+                        userType={user.tipo}
                         foto={user.foto}
                     />
                 );
 
             case "Reclamações":
                 return (
-                    userComplaints.length > 0 ? (
-                        <ConsumerComplaints
-                            consumerComplaints={userComplaints}
-                        />
-                    ) : (
-                        <h2 className="empty">Sem Reclamações</h2>
-                    )
-                );
+                    <UserComplaints
+                        id={user.id}
+                        tipo={user.tipo}
+                    />);
 
             case "Fazer reclamação":
                 return <ComplaintArea />;

@@ -142,6 +142,7 @@ export default function Person(props) {
                     placeholder="CPF..."
                     type="text"
                     value={cpf}
+                    maxlength={11}
                     onChange={(event) => setCpf(event.target.value)}
                     id="cpf"
 

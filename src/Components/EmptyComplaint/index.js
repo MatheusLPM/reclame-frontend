@@ -9,11 +9,13 @@ export default function EmptyComplaint(props) {
     const newStringStatus = (() => {
 
         if (props.status === "Respondida") {
-            return "respondidas"
+            return "respondidas";
         } else if (props.status === "Não Respondida") {
-            return "não respondidas"
+            return "não respondidas";
+        } else if (props.status == "Todos") {
+            return "";
         } else {
-            return props.status
+            return props.status;
         }
     });
 

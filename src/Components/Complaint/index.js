@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 
 import { StyledComplaint } from "./style";
@@ -35,13 +35,15 @@ export default function Complaint(props) {
                         <span>
                             {props.media}/10
                         </span>
-                        <span style={{
-                            color: props.color,
-                            background: props.background
-                        }}>
-                            {props.emoji}
-                            {props.status}
-                        </span>
+                        {props.totalAvaliadas > 0 ?
+                            <span style={{
+                                color: props.color,
+                                background: props.background
+                            }}>
+                                {props.emoji}
+                                {props.status}
+                            </span> : ""}
+
                     </p>
                 </div>
             </section>

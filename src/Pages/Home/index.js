@@ -11,7 +11,7 @@ import { getCompany } from "../../Services/api";
 import ReactLoading from 'react-loading';
 
 
-export default function Home() {
+export default function Home(props) {
 
     const [category, setCategory] = useState("Todos");
     const [isLoading, setIsLoading] = useState(true);
@@ -22,7 +22,7 @@ export default function Home() {
         const fetchData = async () => {
             try {
                 const data = await getCompany();
-
+                // console.log(data)
                 setMelhores(data.melhores_empresas);
                 setPiores(data.piores_empresas);
                 setIsLoading(false);
@@ -32,6 +32,8 @@ export default function Home() {
         };
         fetchData();
     }, []);
+
+    // console.log(piores[0].histórico.totalAvaliadas)
 
     const arrayMaior = melhores.filter((item) => (
         (item.media >= 6) && (category === "Todos" || item.nome_categoria === category)
@@ -64,6 +66,7 @@ export default function Home() {
                         <div>
                             <HelperButton
                                 title='Pesquise sua empresa'
+                                searchBarRef={props.searchBarRef}
                                 icon={
                                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
@@ -78,9 +81,9 @@ export default function Home() {
                                     </svg>
                                 }
                             />
-                            <Link to="/enter">
+                            <Link to={localStorage.getItem('token') ? (props.tipo == 'consumidor' ? '/consumer' : '/company') : '/enter'}>
                                 <HelperButton
-                                    title='Crie uma conta'
+                                    title={localStorage.getItem('token') ? 'Acesse sua Area' : 'Crie uma conta'}
                                     icon={
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                             <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />

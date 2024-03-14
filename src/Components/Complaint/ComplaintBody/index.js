@@ -7,6 +7,12 @@ export default function ComplaintBody(props) {
 
     return (
         <StyledCBodyComplaint>
+            {props.tipo == 'consumidor' ?
+                <div className="name-company">
+                    <h3>Empresa: {props.nome_empresa}</h3>
+                </div> :
+                ""
+            }
             <p>{props.title}</p>
             <p>{props.descricao}</p>
             <div>

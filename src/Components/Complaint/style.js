@@ -14,12 +14,12 @@ export const StyledComplaint = styled.div`
         color: #212121;
         flex-wrap: wrap;
         column-gap: 3vh;
-        
 
         div{
 
             height: 100%;
-            padding: 1.5vh;
+            padding: 1.5rem;
+
     
             p{
                 display: flex;
@@ -29,21 +29,24 @@ export const StyledComplaint = styled.div`
 
             svg{
       
-                width: 2vh;
-                height: 2vh;
+                width: 1.2rem;
+                height: 1.2rem;
+
             }
 
             p:first-child{
                 height: 35%;
-                padding: 0.5vh;
+                padding: 0.5rem;
                 color: #9E9E9E;
                 font-weight: 500;
+
             }
             p:last-child{
                 height: 65%;
                 font-weight: 700;
-                font-size: 1.8vh;
-                gap: 1vh;
+                font-size: 1rem;
+                gap: 1rem;
+
             }
         }
 
@@ -51,7 +54,7 @@ export const StyledComplaint = styled.div`
            
             padding: 1vh 3vh;
             background-color: #F0F0F0;
-            border-radius: 0.5vh;
+            border-radius: 0.5rem;
 
             p:first-child{
                 color: #212121;
@@ -64,9 +67,9 @@ export const StyledComplaint = styled.div`
                 flex-direction: row;
                 align-items: center;
                 justify-content: center;
-                font-size: 1.5vh;
-                padding: 0.5vh;
-                border-radius: 0.5vh;
+                font-size: 1rem;
+                padding: 0.3rem 0.5rem;
+                border-radius: 0.5rem;
                 gap:0.5vh;
             }
         }

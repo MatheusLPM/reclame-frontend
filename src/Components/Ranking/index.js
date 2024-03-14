@@ -13,7 +13,7 @@ import EmptyBody from "./EmptyBody";
 
 export default function Ranking(props) {
 
-
+    // console.log("aqui", props.bodyInfoList[0].historico.totalAvaliadas)
     const carousel = useRef();
     const isEmpty = props.bodyInfoList.length === 0;
 
@@ -42,15 +42,16 @@ export default function Ranking(props) {
             <StyledInfoArticle ref={carousel} isEmpty={isEmpty}>
                 {(props.bodyInfoList.length != 0) ?
                     (props.bodyInfoList.slice(0, 15).map((info, index) => (
-                        <Link to={`/perfil/empresa/${info.id}`} style={{ textDecoration: 'none' }} key={index}>
-                            <BodyInfo
-                                key={index}
-                                nome={info.nome}
-                                nota={info.media}
-                                status={info.status}
-                                perfil={info.perfil}
-                            />
-                        </Link>
+                        props.bodyInfoList[index].historico.totalAvaliadas > 0 ?
+                            <Link to={`/perfil/empresa/${info.id}`} style={{ textDecoration: 'none' }} key={index}>
+                                <BodyInfo
+                                    key={index}
+                                    nome={info.nome}
+                                    nota={info.media}
+                                    status={info.status}
+                                    perfil={info.perfil}
+                                />
+                            </Link> : null
                     ))) : <EmptyBody category={props.category} />}
             </StyledInfoArticle>
 

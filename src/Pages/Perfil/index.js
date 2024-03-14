@@ -9,10 +9,11 @@ import ComplaintBody from "../../Components/Complaint/ComplaintBody";
 import EmptyComplaint from "../../Components/EmptyComplaint";
 import { getPerfilComplaints, showCompany } from "../../Services/api";
 import { newData } from "../../Services/functionValidations";
+import Pagination from '@mui/material/Pagination';
 
 import ReactLoading from 'react-loading';
 import { debounce } from "lodash";
-import PaginationButton from "../../Components/PaginationButton";
+import { Stack } from "@mui/material";
 
 export default function Perfil() {
 
@@ -31,6 +32,7 @@ export default function Perfil() {
     const [totalPages, setTotalPages] = useState(0);
     const [isArticleLoading, setIsArticleLoading] = useState(true);
     const [active, setActive] = useState(false);
+    const [visibleComplaints, setVisibleComplaints] = useState(4);
 
 
 
@@ -69,8 +71,6 @@ export default function Perfil() {
     const ruim = 4;
     const regular = 7;
     const bom = 8.5;
-
-    console.log("pai", active)
 
 
     const selectColor = (nota) => {
@@ -158,15 +158,8 @@ export default function Perfil() {
         }
     };
 
-    const nextPage = () => {
-        setCurrentPage(prevPage => prevPage + 1);
-    };
-
-    const prevPage = () => {
-        setCurrentPage(prevPage => prevPage - 1);
-    };
-
     const handleInputChange = (e) => {
+        setCurrentPage(1);
         setChangeComplaint(e.target.value);
     };
 
@@ -174,8 +167,13 @@ export default function Perfil() {
         setSelectFilter(value);
     };
 
+    const handleViewMore = () => {
+        setVisibleComplaints(companyComplaints.total)
+    }
+
+
     return (
-        <BodyPerfil isActive={active}>
+        <BodyPerfil isActive={active} isMore={companyComplaints.total}>
             {isLoading ? (
                 <div className="loading">
                     <ReactLoading type="spinningBubbles" color="#E7E7E7" />
@@ -186,7 +184,7 @@ export default function Perfil() {
                     <header>
                         <article>
                             <StyledPerfilInfo>
-                                <img alt="logo" src={perfil.foto_perfil ? `http://localhost:8000/storage/${perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
+                                <img alt="logo" src={perfil ? `http://192.168.0.146:8000/storage/${perfil.foto_perfil}` : "/assets/briefcase-fill-black.svg"} ></img>
                                 <div>
                                     <h2>{company.nome}</h2>
                                     <p>{company.nome_categoria}</p>
@@ -220,8 +218,8 @@ export default function Perfil() {
                                 value2="Aguardando"
                                 value3="Respondida"
                                 value4="Não Respondida"
-                                value5="Resolvido"
-                                value6="Não Resolvido"
+                                value5="Não Resolvido"
+                                value6="Resolvido"
                                 onSelectChange={handleSelectChange}
                             />
 
@@ -252,8 +250,8 @@ export default function Perfil() {
                                     <ReactLoading type="balls" color="#E7E7E7" />
                                 </div>
                             ) : (
-                                companyComplaints.data.length > 0 ? (
-                                    companyComplaints.data.map((info, index) => (
+                                companyComplaints.total > 0 ? (
+                                    companyComplaints.data.slice(0, visibleComplaints).map((info, index) => (
                                         <Link key={index} to={`/reclamacao/${info.id}`}>
                                             <ComplaintBody
                                                 key={index}
@@ -267,18 +265,22 @@ export default function Perfil() {
                                 ) : (<EmptyComplaint status={selectFilter} />)
                             )}
                         </article>
-                        <button className="plus" onClick={(e) => setActive(true)}>
+                        <button className="plus" onClick={(e) => { setActive(true), handleViewMore() }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                 <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.5 4.5a.5.5 0 0 0-1 0v3h-3a.5.5 0 0 0 0 1h3v3a.5.5 0 0 0 1 0v-3h3a.5.5 0 0 0 0-1h-3z" />
                             </svg> Ver Todas
                         </button>
-                        <PaginationButton
-                            prevPage={prevPage}
-                            nextPage={nextPage}
-                            currentPage={currentPage}
-                            totalPages={totalPages}
-                            active={active}
-                        />
+
+                        <div className="pagination">
+                            <Stack spacing={2}>
+                                <Pagination
+                                    count={totalPages}
+                                    page={currentPage}
+                                    shape="rounded"
+                                    onChange={(event, page) => setCurrentPage(page)}
+                                />
+                            </Stack>
+                        </div>
                     </section>
 
                 </section>}

@@ -72,13 +72,15 @@ export const StyledDiv = styled.div`
         align-items: center;
         flex: 1;
 
+        .pagination{
+            display: ${(props) => (props.isFive > 1 ? "flex" : "none")};
+        }
+
         article{
-            overflow-y: auto; 
-            scroll-behavior: smooth;
-            scrollbar-width: none;
+
             width: 100%;
             flex: 1;
-            max-height: 76dvh;
+            height: 100%;
         }
         a{
             text-decoration: none;

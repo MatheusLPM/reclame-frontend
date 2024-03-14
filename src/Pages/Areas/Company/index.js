@@ -2,20 +2,19 @@ import React from "react";
 
 
 import { useEffect, useState } from "react";
-import { getShowCompany, getCompanyComplaints, showPerfil } from "../../../Services/api";
+import { getShowCompany } from "../../../Services/api";
 import { StyledButton, StyledConsumerArea } from "../Consumer/style";
 
 import ReactLoading from "react-loading"
 import HomeUser from "../../../Components/UserPage";
-import CompanyComplaints from "./Complaints";
 import ConfigCompany from "./ConfigPage";
+import UserComplaints from "./Complaints";
 
 export default function CompanyArea() {
 
     const [user, setUser] = useState({});
     const [address, setAdress] = useState({});
     const [isLoading, setIsLoading] = useState(true);
-    const [userComplaints, setUserComplaints] = useState({});
     const [menu, setMenu] = useState(() => {
         return localStorage.getItem("menu") || "Inicio";
     });
@@ -65,8 +64,9 @@ export default function CompanyArea() {
 
             case "Reclamações":
                 return (
-                    <CompanyComplaints
+                    <UserComplaints
                         id={user.id}
+                        tipo={user.tipo}
                     />);
 
             case "Configurações":

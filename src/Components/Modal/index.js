@@ -9,7 +9,6 @@ import Avaliation from "./Avaliation";
 export default function Modal(props) {
 
     const [stateModal, setStateModal] = useState("modal");
-    // const [resposta, setResposta] = useState();
 
     return (
         <>

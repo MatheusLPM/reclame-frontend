@@ -6,7 +6,11 @@ import { BodyButtonHelper } from "./style";
 
 export default function HelperButton(props) {
     return (
-        <BodyButtonHelper>
+        <BodyButtonHelper onClick={() => {
+            if (props.searchBarRef) {
+                props.searchBarRef.current.focus();
+            }
+        }}>
             <p>{props.title}</p>
             <span>{props.icon}</span>
         </BodyButtonHelper>
